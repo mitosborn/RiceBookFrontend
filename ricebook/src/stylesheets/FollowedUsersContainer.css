@@ -1,0 +1,7 @@
+.followContainer {
+    background-color: black;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 70vh;
+    width: 100%;
+}

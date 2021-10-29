@@ -1,0 +1,36 @@
+#main-div {
+    height:100vh;
+    margin: auto;
+    backgroundColor: black;
+
+}
+
+#main-container {
+    backgroundColor: green;
+    height: 100%
+}
+
+.content-row {
+    height: 90%;
+}
+
+.mainTitle {
+    margin: auto;
+    text-align: center;
+    font-size: 9.75vmin;
+}
+
+.followedUsers {
+    margin: auto;
+    text-align: center;
+    /*font-size: 1.25em;*/
+}
+
+.header {
+    background-color:antiquewhite;
+    height:10%
+}
+
+.topPadding {
+    padding-top: 20px;
+}

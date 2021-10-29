@@ -1,0 +1,23 @@
+.text {
+    text-align: center;
+}
+
+.profileImage {
+    max-height: 100px;
+}
+
+#backButton {
+    font-size: 1em;
+    margin: .2em;
+    top: 0px;
+    right: 0px;
+    position: absolute;
+}
+
+#title {
+    right: 50%;
+}
+
+#header {
+    background-color:antiquewhite;
+}

@@ -1,0 +1,28 @@
+.updateHeadlineBtn {
+    width: 85%;
+    margin-bottom: 10px;
+}
+
+.regBtn {
+    width: 35%;
+    margin: auto;
+}
+
+.currentUserBtn{
+    width: 45%;
+    margin: auto;
+}
+
+.userText {
+    font-size: 1.1em;
+    color: white;
+}
+
+.headlineTextContainer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 100%;
+    /*width: 100%;*/
+}

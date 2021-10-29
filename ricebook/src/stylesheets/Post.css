@@ -1,0 +1,70 @@
+.profilePostImage {
+    width:95%;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    margin: auto;
+    /*height: 100px;*/
+}
+
+.postText {
+    font-size: 1em;
+    color: white;
+    display: flex;
+    padding-left: 10px;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    margin: auto;
+    height: 100%;
+    max-height: 150px;
+    width: 95%;
+    word-wrap: break-word;
+    hyphens: auto;
+    overflow-y: scroll;
+}
+
+.commentBox {
+    font-size: 1em;
+    color: white;
+    margin-top: 10px;
+    margin-right: 10px;
+    text-align: center;
+    height: 100%;
+    max-height: 200px;
+    width: 95%;
+    hyphens: auto;
+    overflow-y: scroll;
+}
+
+.commentTitle {
+    text-decoration: underline;
+}
+
+
+.postDiv {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    background-color: black;
+}
+
+.postHeader {
+    background-color: gray;
+    margin-bottom: 5px;
+}
+
+.postHeaderUser {
+    display: inline;
+    overflow: hidden;
+}
+
+.postHeaderDate {
+    display: inline;
+    justify-content: right;
+    text-align: right;
+    overflow: hidden;
+}
+
+.postButton {
+    width: 85%;
+}

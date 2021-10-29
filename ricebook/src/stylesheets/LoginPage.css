@@ -1,0 +1,21 @@
+#LoginPage {
+    /*align-items: center;*/
+    padding-top: 10%;
+    background-color: gray;
+    height:90vh;
+}
+
+.text {
+    text-align: center;
+}
+
+.riceBookTitle {
+    text-align: center;
+    font-size: 3em;
+}
+
+.LoginPagee {
+    width:100vw;
+    height:100vh;
+    background-color: antiquewhite;
+}

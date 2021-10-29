@@ -1,0 +1,7 @@
+.postContainer {
+    background-color: navajowhite;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 70vh;
+    width: 100%;
+}
