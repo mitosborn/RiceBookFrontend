@@ -14,7 +14,7 @@ import {useDispatch} from "react-redux";
 const initialState = {
     posts: [],
     allPosts: [],
-    currentUser: {"username":"placeholder", "name":"Brett", "img":"https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg", "headline":"At work", id:1, email:"someemail@email.com", address:{street:"somestreet", zipcode:85641}},
+    currentUser: {"username":"", "name":"", "img":"", "headline":"", id:-1, email:"", address:{street:"", zipcode:-1}},
     newPostID: 101,
     newFollowerID: 11,
     users: [],

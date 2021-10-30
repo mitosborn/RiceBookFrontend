@@ -21,21 +21,20 @@ function MainView() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    if(!loggedIn) {
-        history.push({"pathname":"/login"})
-    }
-
 
     useMemo(() => {
-        fetch("https://jsonplaceholder.typicode.com/users").then(res => res.json()).then(res =>
-        {
-            dispatch(getUsers(res));
-            fetch("https://jsonplaceholder.typicode.com/posts").then(res => res.json()).then(res =>
-            {
-                console.log(res)
-                dispatch(getPosts(res));
+        if(!loggedIn) {
+            history.push({"pathname":"/login"})
+        }
+        else {
+            fetch("https://jsonplaceholder.typicode.com/users").then(res => res.json()).then(res => {
+                dispatch(getUsers(res));
+                fetch("https://jsonplaceholder.typicode.com/posts").then(res => res.json()).then(res => {
+                    console.log(res)
+                    dispatch(getPosts(res));
+                }, []);
             }, []);
-        }, []);
+        }
     },[])
 
 

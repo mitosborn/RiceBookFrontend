@@ -7,18 +7,17 @@ import {useSelector} from "react-redux";
 
 // React form validation based on https://dev.to/alecgrey/controlled-forms-with-front-and-backend-validations-using-react-bootstrap-5a2
 function ProfileView() {
+    let loggedIn = useSelector((state) => state.loggedIn);
+    const history = useHistory();
+    if(!loggedIn) {
+        history.push({"pathname":"/login"})
+    }
     const userInformation = useSelector((state)=> state.currentUser);
     console.log(userInformation);
     const [validated, setValidated] = useState(false);
     const [ form, setForm ] = useState({});
     const [ errors, setErrors ] = useState({});
     const [currentValues, setCurrentValues] = useState({accountName:userInformation.username, email:userInformation.email, zipCode:userInformation.address.zipcode, password:userInformation.address.street, passwordValidation:userInformation.address.street, phone:userInformation.phone});
-    const history = useHistory();
-    let loggedIn = useSelector((state) => state.loggedIn);
-
-    if(!loggedIn) {
-        history.push({"pathname":"/login"})
-    }
 
     const setField = (field, value) => {
         setForm({
