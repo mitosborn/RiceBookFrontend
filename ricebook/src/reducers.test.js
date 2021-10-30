@@ -1,5 +1,5 @@
 import {riceBookReducer} from './reducers';
-import {login, logout, queryPosts} from "./actions";
+import {followUser, login, logout, queryPosts, unfollowUser} from "./actions";
 
 test('should log in a previously registered user (not new users, login state should be set)', () => {
    let newState = riceBookReducer(undefined, login('Bret','Kulas Light'));
@@ -46,6 +46,7 @@ test('should log out a user (login state should be cleared)', () => {
     expect(newState.currentUser).toEqual({"username":"", "name":"", "img":"", "headline":"", id:-1, email:"", address:{street:"", zipcode:-1}});
     expect(newState.loggedIn).toEqual(false);
 })
+
 
 test('should fetch all articles for current logged in user (posts state is set)', () => {
     let newState = riceBookReducer(undefined, login('Bret','Kulas Light'));
@@ -654,7 +655,7 @@ test('should fetch all articles for current logged in user (posts state is set)'
     ])
 })
 
-// TODO: These remaining tests
+
 test('should fetch subset of articles for current logged in user given search keyword (posts state is filtered)', () => {
     let oldState = riceBookReducer(undefined, login('Bret','Kulas Light'));
     // User 1 should have posts from users 1, 2, 3, 4
@@ -1271,106 +1272,118 @@ test('should fetch subset of articles for current logged in user given search ke
         "date": "2021-10-29T15:42:34.327Z",
         "img": "https://images.pexels.com/photos/145939/pexels-photo-145939.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     }]);
-    // Search by Author
+    // Search by Author; Should be ten posts
     newState = riceBookReducer(oldState, queryPosts('Antonette'));
-    expect(newState.posts).toEqual([{
-        "userId": 1,
-        "id": 2,
-        "title": "qui est esse",
-        "body": "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla",
-        "name": "Bret",
-        "date": "2021-10-29T15:42:34.327Z",
-        "img": "https://images.pexels.com/photos/145939/pexels-photo-145939.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-    }]);
+    expect(newState.posts).toEqual([
+        {
+            "userId": 2,
+            "id": 16,
+            "title": "sint suscipit perspiciatis velit dolorum rerum ipsa laboriosam odio",
+            "body": "suscipit nam nisi quo aperiam aut\nasperiores eos fugit maiores voluptatibus quia\nvoluptatem quis ullam qui in alias quia est\nconsequatur magni mollitia accusamus ea nisi voluptate dicta",
+            "name": "Antonette",
+            "date": "2021-10-30T20:26:22.898Z",
+            "img": "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg"
+        },
+        {
+            "userId": 2,
+            "id": 12,
+            "title": "in quibusdam tempore odit est dolorem",
+            "body": "itaque id aut magnam\npraesentium quia et ea odit et ea voluptas et\nsapiente quia nihil amet occaecati quia id voluptatem\nincidunt ea est distinctio odio",
+            "name": "Antonette",
+            "date": "2021-10-29T00:43:54.043Z",
+            "img": "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg"
+        },
+        {
+            "userId": 2,
+            "id": 19,
+            "title": "adipisci placeat illum aut reiciendis qui",
+            "body": "illum quis cupiditate provident sit magnam\nea sed aut omnis\nveniam maiores ullam consequatur atque\nadipisci quo iste expedita sit quos voluptas",
+            "name": "Antonette",
+            "date": "2021-10-28T19:28:12.075Z",
+            "img": "https://images.unsplash.com/photo-1614107696198-e5b2273fd3c3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
+        },
+        {
+            "userId": 2,
+            "id": 14,
+            "title": "voluptatem eligendi optio",
+            "body": "fuga et accusamus dolorum perferendis illo voluptas\nnon doloremque neque facere\nad qui dolorum molestiae beatae\nsed aut voluptas totam sit illum",
+            "name": "Antonette",
+            "date": "2021-10-28T05:18:28.635Z",
+            "img": "https://images.pexels.com/photos/145939/pexels-photo-145939.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+        },
+        {
+            "userId": 2,
+            "id": 17,
+            "title": "fugit voluptas sed molestias voluptatem provident",
+            "body": "eos voluptas et aut odit natus earum\naspernatur fuga molestiae ullam\ndeserunt ratione qui eos\nqui nihil ratione nemo velit ut aut id quo",
+            "name": "Antonette",
+            "date": "2021-10-27T18:49:35.397Z",
+            "img": "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg"
+        },
+        {
+            "userId": 2,
+            "id": 20,
+            "title": "doloribus ad provident suscipit at",
+            "body": "qui consequuntur ducimus possimus quisquam amet similique\nsuscipit porro ipsam amet\neos veritatis officiis exercitationem vel fugit aut necessitatibus totam\nomnis rerum consequatur expedita quidem cumque explicabo",
+            "name": "Antonette",
+            "date": "2021-10-27T12:28:54.665Z",
+            "img": "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg"
+        },
+        {
+            "userId": 2,
+            "id": 11,
+            "title": "et ea vero quia laudantium autem",
+            "body": "delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\naccusamus in eum beatae sit\nvel qui neque voluptates ut commodi qui incidunt\nut animi commodi",
+            "name": "Antonette",
+            "date": "2021-10-27T03:33:43.983Z",
+            "img": "https://images.unsplash.com/photo-1614107696198-e5b2273fd3c3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
+        },
+        {
+            "userId": 2,
+            "id": 18,
+            "title": "voluptate et itaque vero tempora molestiae",
+            "body": "eveniet quo quis\nlaborum totam consequatur non dolor\nut et est repudiandae\nest voluptatem vel debitis et magnam",
+            "name": "Antonette",
+            "date": "2021-10-26T15:38:20.263Z",
+            "img": "https://images.pexels.com/photos/145939/pexels-photo-145939.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+        },
+        {
+            "userId": 2,
+            "id": 13,
+            "title": "dolorum ut in voluptas mollitia et saepe quo animi",
+            "body": "aut dicta possimus sint mollitia voluptas commodi quo doloremque\niste corrupti reiciendis voluptatem eius rerum\nsit cumque quod eligendi laborum minima\nperferendis recusandae assumenda consectetur porro architecto ipsum ipsam",
+            "name": "Antonette",
+            "date": "2021-10-26T05:04:11.894Z",
+            "img": "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg"
+        },
+        {
+            "userId": 2,
+            "id": 15,
+            "title": "eveniet quod temporibus",
+            "body": "reprehenderit quos placeat\nvelit minima officia dolores impedit repudiandae molestiae nam\nvoluptas recusandae quis delectus\nofficiis harum fugiat vitae",
+            "name": "Antonette",
+            "date": "2021-10-23T12:17:33.858Z",
+            "img": "https://images.unsplash.com/photo-1614107696198-e5b2273fd3c3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
+        }
+    ]);
 })
 
 
 test('should add articles when adding a follower (posts state is larger )', () => {
-    let newState = riceBookReducer(undefined, login('Bret','Kulas Light'));
-    expect(newState.currentUser).toEqual({
-        "id": 1,
-        "name": "Leanne Graham",
-        "username": "Bret",
-        "email": "Sincere@april.biz",
-        "address": {
-            "street": "Kulas Light",
-            "suite": "Apt. 556",
-            "city": "Gwenborough",
-            "zipcode": "92998-3874",
-            "geo": {
-                "lat": "-37.3159",
-                "lng": "81.1496"
-            }
-        },
-        "phone": "1-770-736-8031 x56442",
-        "website": "hildegard.org",
-        "company": {
-            "name": "Romaguera-Crona",
-            "catchPhrase": "Multi-layered client-server neural-net",
-            "bs": "harness real-time e-markets"
-        },
-        "img": "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg",
-        "headline": "Multi-layered client-server neural-net"
-    });
-    expect(newState.loggedIn).toEqual(true);
+    let oldState = riceBookReducer(undefined, login('Bret','Kulas Light'));
+    let oldStateNum = oldState.posts.length;
+    let newState = riceBookReducer(oldState, followUser(2));
+    expect(newState.posts.length > oldStateNum);
 })
 
 test('should remove articles when removing a follower (posts state is smaller)', () => {
-    let newState = riceBookReducer(undefined, login('Bret','Kulas Light'));
-    expect(newState.currentUser).toEqual({
-        "id": 1,
-        "name": "Leanne Graham",
-        "username": "Bret",
-        "email": "Sincere@april.biz",
-        "address": {
-            "street": "Kulas Light",
-            "suite": "Apt. 556",
-            "city": "Gwenborough",
-            "zipcode": "92998-3874",
-            "geo": {
-                "lat": "-37.3159",
-                "lng": "81.1496"
-            }
-        },
-        "phone": "1-770-736-8031 x56442",
-        "website": "hildegard.org",
-        "company": {
-            "name": "Romaguera-Crona",
-            "catchPhrase": "Multi-layered client-server neural-net",
-            "bs": "harness real-time e-markets"
-        },
-        "img": "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg",
-        "headline": "Multi-layered client-server neural-net"
-    });
-    expect(newState.loggedIn).toEqual(true);
+    let oldState = riceBookReducer(undefined, login('Bret','Kulas Light'));
+    let oldStateNum = oldState.posts.length;
+    let newState = riceBookReducer(oldState, unfollowUser(2));
+    expect(oldStateNum > newState.posts.length);
 })
 
 test('should fetch the logged in user\'s profile username', () => {
     let newState = riceBookReducer(undefined, login('Bret','Kulas Light'));
-    expect(newState.currentUser).toEqual({
-        "id": 1,
-        "name": "Leanne Graham",
-        "username": "Bret",
-        "email": "Sincere@april.biz",
-        "address": {
-            "street": "Kulas Light",
-            "suite": "Apt. 556",
-            "city": "Gwenborough",
-            "zipcode": "92998-3874",
-            "geo": {
-                "lat": "-37.3159",
-                "lng": "81.1496"
-            }
-        },
-        "phone": "1-770-736-8031 x56442",
-        "website": "hildegard.org",
-        "company": {
-            "name": "Romaguera-Crona",
-            "catchPhrase": "Multi-layered client-server neural-net",
-            "bs": "harness real-time e-markets"
-        },
-        "img": "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg",
-        "headline": "Multi-layered client-server neural-net"
-    });
-    expect(newState.loggedIn).toEqual(true);
+    expect(newState.currentUser.username).toEqual('Bret');
 })

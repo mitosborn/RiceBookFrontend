@@ -9,7 +9,7 @@ import {
     REGISTER_USER,
     UNFOLLOW_USER
 } from "./actions";
-import {useDispatch} from "react-redux";
+
 //There should initially be 10 registered users
 const initialState = {
     posts: [],
@@ -104,7 +104,7 @@ export function riceBookReducer(state = initialState, action) {
         case QUERY_POSTS:
             let queried_posts;
             if(action.query){
-                queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId) && user.body.includes(action.query))
+                queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId) && (user.body.includes(action.query) || user.name.includes(action.query)))
             }
             else {
                 queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId))
