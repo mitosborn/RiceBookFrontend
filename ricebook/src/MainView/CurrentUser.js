@@ -3,15 +3,18 @@ import {Button, Col, Form, Image, Row} from "react-bootstrap";
 import logo from "../img/logo192.png";
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {logout} from "../actions";
+import {useDispatch, useSelector} from "react-redux";
+import {logout, updateHeadline} from "../actions";
 
-function CurrentUser({name, img, headline}) {
+function CurrentUser() {
     const [showPost, setShowPost] = useState(false);
-    const [currentHeadline, setCurrentHeadline] = useState(headline)
+    const name = useSelector((state)=> state.currentUser.name);
+    const img = useSelector((state)=> state.currentUser.img);
+    const currentHeadline = useSelector((state)=> state.currentUser.headline);
     const [newHeadline, setNewHeadline] = useState("");
     const history = useHistory();
     const dispatch = useDispatch();
+
 
     const logoutApp = () => {
         dispatch(logout())
@@ -54,7 +57,7 @@ function CurrentUser({name, img, headline}) {
                         <Col className = {"col-12"}>
                             <div className="d-flex justify-content-center">
                                 <Button type="reset" className="currentUserBtn btn btn-default mb-2">Clear</Button>
-                                <Button onClick={()=>setCurrentHeadline(newHeadline)} className="currentUserBtn btn btn-default mb-2">Post</Button>
+                                <Button onClick={()=>dispatch(updateHeadline(newHeadline))} className="currentUserBtn btn btn-default mb-2">Post</Button>
                             </div>
                         </Col>
                     </Row>

@@ -10,7 +10,7 @@ export const QUERY_POSTS = "QUERY_POSTS";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const REGISTER_USER = "REGISTER_USER";
-
+export const UPDATE_HEADLINE = "UPDATE_HEADLINE"
 /*
  * action creator
  */
@@ -48,4 +48,8 @@ export function logout() {
 
 export function registerUser(userInfo) {
     return {type: REGISTER_USER, userInfo}
+}
+
+export function updateHeadline(headline) {
+    return {type: UPDATE_HEADLINE, headline}
 }

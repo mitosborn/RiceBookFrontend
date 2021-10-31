@@ -93,7 +93,7 @@ function MainView() {
                     </Col>
                     <Col className={"col-3"} style={{backgroundColor:"black"}}>
                         <div className={"topPadding"}>
-                            <CurrentUser name={currentUser.username} img={currentUser.img} headline={currentUser.headline}/>
+                            <CurrentUser/>
                         </div>
                     </Col>
                 </Row>

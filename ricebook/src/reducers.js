@@ -7,7 +7,8 @@ import {
     LOGOUT,
     QUERY_POSTS,
     REGISTER_USER,
-    UNFOLLOW_USER
+    UNFOLLOW_USER,
+    UPDATE_HEADLINE
 } from "./actions";
 
 //There should initially be 10 registered users
@@ -143,7 +144,9 @@ export function riceBookReducer(state = initialState, action) {
                 newUserFollowedUsers.push(state.users[user-1])
             });
             return {...state, followedUsers: newUserFollowedUsers, currentUser:newUser, customUser: true, loggedIn: true}
-
+        case UPDATE_HEADLINE:
+            console.log("Updated headline");
+            return {...state, currentUser: {...state.currentUser, headline: action.headline}};
         default:
             return state;
 
