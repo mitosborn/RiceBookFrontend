@@ -24,7 +24,7 @@ function Post({user, date, img, text}) {
                 <Col className={"col-8"}>
                     <Row>
                         <div className={"profilePostImage"}>
-                            <Image src={img ? img: defaultImg} fluid/>
+                            {img && <Image src={img} fluid/>}
                         </div>
                     </Row>
                     <Row>
