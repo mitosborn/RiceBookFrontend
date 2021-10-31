@@ -1,6 +1,6 @@
 import {
     ADD_POST,
-    FOLLOW_USER,
+    FOLLOW_USER, GET_COMMENTS,
     GET_POSTS,
     GET_USERS,
     LOGIN,
@@ -24,7 +24,8 @@ const initialState = {
     lastQuery: "",
     customUser: false,
     loggedIn: false,
-    error: false
+    error: false,
+    comments: {}
 };
 const defaultUser = {"username":"placeholder", "name":"Brett", "img":"https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg", "headline":"At work", id:1, email:"someemail@email.com", address:{street:"somestreet", zipcode:85641}} // If custom, need to rename Brett to custom user
 const pictures = ["https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg", "https://images.pexels.com/photos/145939/pexels-photo-145939.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500","https://images.unsplash.com/photo-1614107696198-e5b2273fd3c3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80", "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg"]
@@ -95,9 +96,13 @@ export function riceBookReducer(state = initialState, action) {
 
             return {...state, users: allUsers, userLoginInfo: userLoginInfo}
         case FOLLOW_USER:
-            console.log(state.followedUsers)
-            console.log(action.user);
-            return {...state, followedUsers:[...state.followedUsers, {...action.user, id:state.newFollowerID, userId:state.newFollowerID}], newFollowerID:(state.newFollowerID+1)}
+            let JSONUsers = state.users.filter(user => user.username == action.user.username.trim())
+            // Only add users that exist + are not already followed
+            if (JSONUsers && !state.followedUsers.includes(JSONUsers[0])) {
+                return {...state, followedUsers:[...state.followedUsers, JSONUsers[0]]}
+            }
+            // Followed user doesn't exist; add nothing
+            return state;
         case UNFOLLOW_USER:
             console.log(action.user)
             let new_followed = state.followedUsers.filter(user => user.username != action.unfollowedUser)
@@ -147,6 +152,8 @@ export function riceBookReducer(state = initialState, action) {
         case UPDATE_HEADLINE:
             console.log("Updated headline");
             return {...state, currentUser: {...state.currentUser, headline: action.headline}};
+        case GET_COMMENTS:
+            return state;
         default:
             return state;
 

@@ -1,5 +1,8 @@
 import '../stylesheets/Post.css'
 import {Button, Col, Image, Row} from "react-bootstrap";
+import Comment from "./Comment";
+
+const comments = [{"name":"Jeff", "body":"This is so cool!"},{"name":"Gordon", "body":"I gotta go here sometime. Where is this?"},{"name":"Rudy", "body":"Interesting!"},{"name":"Anne", "body":"Very pretty photo! I need to visit here."}, {"name":"Bri", "body":"Placeholder commment."}]
 
 function Post({user, date, img, text}) {
     const defaultImg = "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg";
@@ -35,11 +38,12 @@ function Post({user, date, img, text}) {
                 {/*Place post text*/}
                 </Col>
                 <Col className={"col-4"}>
-
-                    <Row >
+                    <Row>
                             <div className={"commentBox"}>
                                 <h4 className={"commentTitle"}>Comments</h4>
-                                <p>No comments yet. Be the first</p>
+                                <div> 
+                                    {comments.map(c => <Comment key={c.name} user={c.name} body={c.body}></Comment>)}
+                                </div>
                             </div>
                     </Row>
                     <Row>
