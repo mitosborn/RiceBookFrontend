@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Button, Col, Form, InputGroup, Row} from 'react-bootstrap'
 import {useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 function Register({registerFtn}) {
     const [validated, setValidated] = useState(false);
@@ -11,6 +12,7 @@ function Register({registerFtn}) {
     const [zipcode, setZipcode] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
+    const users = useSelector(state => state.users);
     const history = useHistory();
 
     const setField = (field, value) => {
@@ -51,6 +53,12 @@ function Register({registerFtn}) {
         // name errors
         if (!checkDOB(date)) newErrors.date = 'cannot be blank!'
         if (!checkPassword(password, passwordValidation)) newErrors.password = 'cannot be blank!'
+        // Check that new name is unique
+        if (users.filter(user => user.username == accountName).length > 0) {
+            // Display error message
+            console.log(users.filter(user => user.username == accountName));
+            newErrors.accountname = 'Error: Account already exists';
+        }
         return newErrors
     }
 
@@ -88,7 +96,11 @@ function Register({registerFtn}) {
                         placeholder="Account name"
                         pattern="^[a-zA-Z]{1}[A-Za-z0-9]*"
                         onChange={(e)=> setAccountName(e.target.value)}
+                        isInvalid={!!errors.accountname}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        Error: Username already exists.
+                    </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
                     <Form.Label>Display Name</Form.Label>

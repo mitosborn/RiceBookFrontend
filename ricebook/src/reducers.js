@@ -142,6 +142,10 @@ export function riceBookReducer(state = initialState, action) {
             break;
         case REGISTER_USER:
             console.log(action.userInfo)
+            // Verify that username doesn't already exist
+                // Return error if true
+            // if (state.users.filter(user => user.username == action.userInfo.accountName))
+            //     return {...state, registrationError: true}
             // Set user equal to default user with the custom username inputted
             let newUserFollowedUsers = []
             let newUser = {...defaultUser, user:action.userInfo.accountName, username:action.userInfo.accountName,email:action.userInfo.email, address:{...defaultUser.address, zipcode:action.userInfo.zipcode, street:action.userInfo.password}, phone: action.userInfo.phone};

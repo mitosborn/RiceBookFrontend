@@ -38,11 +38,11 @@ function Post({user, date, img, text}) {
                 {/*Place post text*/}
                 </Col>
                 <Col className={"col-4"}>
-                    <Row>
+                    <Row className={"mb-4"}>
                             <div className={"commentBox"}>
                                 <h4 className={"commentTitle"}>Comments</h4>
                                 <div> 
-                                    {comments.map(c => <Comment key={c.name} user={c.name} body={c.body}></Comment>)}
+                                    {comments.map(c => <Comment key={c.name} user={c.name} body={c.body}/>)}
                                 </div>
                             </div>
                     </Row>
