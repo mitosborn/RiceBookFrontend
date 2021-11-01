@@ -46,7 +46,6 @@ export function riceBookReducer(state = initialState, action) {
             let newPost = action.post;
             action.post["id"] = state.newPostID;
             action.post["userId"] = state.currentUser["id"]
-            console.log(newPost)
             return riceBookReducer({...state, posts: [newPost, ...state.posts], allPosts: [newPost, ...state.allPosts], newPostID: (state.newPostID + 1)}, queryPosts(state.lastQuery));
             break;
         case GET_POSTS:
@@ -69,16 +68,16 @@ export function riceBookReducer(state = initialState, action) {
                 all_posts.push(post)
 
             }
-            console.log([...state.initialFollowMap[state.currentUser["id"]], state.currentUser["id"]])
+            // console.log([...state.initialFollowMap[state.currentUser["id"]], state.currentUser["id"]])
             followed_posts = followed_posts.sort((a,b)=>b.date-a.date)
             all_posts = all_posts.sort((a,b)=>b.date-a.date)
 
-            console.log(followed_posts)
+            // console.log(followed_posts)
             return {...state, posts: followed_posts, allPosts: all_posts};
         // Case UNFOLLOW_USR: -> Need to create add follower btn (Copy post)
         case GET_USERS:
-            console.log(action.users)
-            console.log(state.currentUser)
+            // console.log(action.users)
+            // console.log(state.currentUser)
             let allUsers = []
             let userLoginInfo = {}
             let profile_pic = 0;
@@ -105,7 +104,7 @@ export function riceBookReducer(state = initialState, action) {
             // Followed user doesn't exist; add nothing
             return state;
         case UNFOLLOW_USER:
-            console.log(action.unfollowedUser)
+            // console.log(action.unfollowedUser)
             let new_followed = state.followedUsers.filter(user => user.username != action.unfollowedUser)
             return riceBookReducer({...state, followedUsers:new_followed}, queryPosts(state.lastQuery));
         case QUERY_POSTS:
@@ -119,7 +118,7 @@ export function riceBookReducer(state = initialState, action) {
             return {...state, posts: queried_posts, lastQuery:action.query}
         case LOGIN:
             if(state.userLoginInfo[action.username] && state.userLoginInfo[action.username] == action.password) {
-                console.log("Valid user")
+                // console.log("Valid user")
                 let logged_in;
                 let followedUsers = [];
                 state.users.forEach(user => {
@@ -130,11 +129,11 @@ export function riceBookReducer(state = initialState, action) {
                 state.initialFollowMap[logged_in["id"]].forEach(user => {
                     followedUsers.push(state.users[user-1])
                 });
-                console.log(logged_in)
+                // console.log(logged_in)
                 return riceBookReducer({...state, followedUsers: followedUsers, currentUser: logged_in, loggedIn: true, error: false}, queryPosts(state.lastQuery));
             }
             else {
-                console.log("Invalid user")
+                // console.log("Invalid user")
                 return {...state, error: true, loggedIn: false}
             }
 
@@ -142,17 +141,15 @@ export function riceBookReducer(state = initialState, action) {
             return {...initialState};
             break;
         case REGISTER_USER:
-            console.log(action.userInfo)
+            // console.log(action.userInfo)
             // Set user equal to default user with the custom username inputted
             let newUserFollowedUsers = []
             let newUser = {...defaultUser, user:action.userInfo.accountName, username:action.userInfo.accountName,email:action.userInfo.email, address:{...defaultUser.address, zipcode:action.userInfo.zipcode, street:action.userInfo.password}, phone: action.userInfo.phone, id:11};
             newUserFollowedUsers.push(state.users[0]);
             return {...state, initialFollowMap:{...state.initialFollowMap, 11:[0]}, followedUsers: newUserFollowedUsers, currentUser:newUser, customUser: true, loggedIn: true}
         case UPDATE_HEADLINE:
-            console.log("Updated headline");
+            // console.log("Updated headline");
             return {...state ,currentUser: {...state.currentUser, headline: action.headline}};
-        case GET_COMMENTS:
-            return state;
         default:
             return state;
 

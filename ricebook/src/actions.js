@@ -11,7 +11,7 @@ export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const REGISTER_USER = "REGISTER_USER";
 export const UPDATE_HEADLINE = "UPDATE_HEADLINE";
-export const GET_COMMENTS = "GET_COMMENTS"
+// export const GET_COMMENTS = "GET_COMMENTS"
 
 /*
  * action creator
@@ -56,6 +56,6 @@ export function updateHeadline(headline) {
     return {type: UPDATE_HEADLINE, headline}
 }
 
-export function getComments(comments) {
-    return {type: GET_COMMENTS, comments}
-}
+// export function getComments(comments) {
+//     return {type: GET_COMMENTS, comments}
+// }

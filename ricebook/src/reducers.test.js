@@ -1,5 +1,5 @@
 import {riceBookReducer} from './reducers';
-import {followUser, getPosts, getUsers, login, logout, queryPosts, unfollowUser} from "./actions";
+import {followUser, getPosts, getUsers, login, logout, queryPosts, registerUser, unfollowUser} from "./actions";
 import * as post_data from './TestData/posts.json';
 import * as user_data from './TestData/users.json';
 
@@ -120,4 +120,14 @@ test('should fetch the logged in user\'s profile username', () => {
     oldState = riceBookReducer(oldState, getPosts(Posts));
     let newState = riceBookReducer(oldState, login('Bret','Kulas Light'));
     expect(newState.currentUser.username).toEqual('Bret');
+})
+
+test('should register new user', () => {
+    let oldState = riceBookReducer(undefined, getUsers(Users));
+    oldState = riceBookReducer(oldState, getPosts(Posts));
+    let newState = riceBookReducer(oldState, registerUser({accountName:"New user", email:"some@email.com", zipcode:"88403", password: "password", phone:"555-555-5555"}))
+    expect("New user").toEqual(newState.currentUser.username);
+    expect(true).toEqual(newState.customUser);
+    expect("some@email.com").toEqual(newState.currentUser.email);
+    expect("555-555-5555").toEqual(newState.currentUser.phone);
 })
