@@ -47,7 +47,7 @@ export function riceBookReducer(state = initialState, action) {
             action.post["id"] = state.newPostID;
             action.post["userId"] = state.currentUser["id"]
             console.log(newPost)
-            return riceBookReducer({...state, posts: [newPost, ...state.posts], allPosts: [newPost, ...state.allPosts], newPostID: (state.newPostID + 1)}, queryPosts());
+            return riceBookReducer({...state, posts: [newPost, ...state.posts], allPosts: [newPost, ...state.allPosts], newPostID: (state.newPostID + 1)}, queryPosts(state.lastQuery));
             break;
         case GET_POSTS:
             let followed_posts = []
@@ -100,7 +100,7 @@ export function riceBookReducer(state = initialState, action) {
             let JSONUsers = state.users.filter(user => user.username == action.user.username.trim())
             // Only add users that exist + are not already followed
             if (JSONUsers && !state.followedUsers.includes(JSONUsers[0])) {
-                return riceBookReducer({...state, followedUsers:[...state.followedUsers, JSONUsers[0]]}, queryPosts());
+                return riceBookReducer({...state, followedUsers:[...state.followedUsers, JSONUsers[0]]}, queryPosts(state.lastQuery));
             }
             // Followed user doesn't exist; add nothing
             return state;
@@ -131,7 +131,7 @@ export function riceBookReducer(state = initialState, action) {
                     followedUsers.push(state.users[user-1])
                 });
                 console.log(logged_in)
-                return riceBookReducer({...state, followedUsers: followedUsers, currentUser: logged_in, loggedIn: true, error: false}, queryPosts());
+                return riceBookReducer({...state, followedUsers: followedUsers, currentUser: logged_in, loggedIn: true, error: false}, queryPosts(state.lastQuery));
             }
             else {
                 console.log("Invalid user")

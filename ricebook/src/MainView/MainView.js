@@ -52,12 +52,12 @@ function MainView() {
 
     const followFtn = (user) => {
         dispatch(followUser(user))
-        dispatch(queryPosts(lastQuery));
+        // dispatch(queryPosts(lastQuery));
     }
 
     const unfollowFtn = (user) => {
         dispatch(unfollowUser(user))
-        dispatch(queryPosts(lastQuery));
+        // dispatch(queryPosts(lastQuery));
     }
 
     const searchFtn = (query) => {
