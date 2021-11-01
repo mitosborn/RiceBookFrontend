@@ -1,5 +1,11 @@
 import {riceBookReducer} from './reducers';
-import {followUser, login, logout, queryPosts, unfollowUser} from "./actions";
+import {followUser, getPosts, getUsers, login, logout, queryPosts, unfollowUser} from "./actions";
+import * as post_data from './TestData/posts.json';
+import * as user_data from './TestData/users.json';
+
+const {Posts} = post_data;
+const {Users} = user_data;
+
 
 test('should log in a previously registered user (not new users, login state should be set)', () => {
    let newState = riceBookReducer(undefined, login('Bret','Kulas Light'));
@@ -1377,13 +1383,21 @@ test('should add articles when adding a follower (posts state is larger )', () =
 })
 
 test('should remove articles when removing a follower (posts state is smaller)', () => {
-    let oldState = riceBookReducer(undefined, login('Bret','Kulas Light'));
+    let oldState = riceBookReducer(undefined, getUsers(Users));
+    oldState = riceBookReducer(oldState, getPosts(Posts));
+    oldState = riceBookReducer(oldState, login('Bret','Kulas Light'));
+    // oldState = riceBookReducer(oldState, queryPosts());
     let oldStateNum = oldState.posts.length;
-    let newState = riceBookReducer(oldState, unfollowUser(2));
+    let newState = riceBookReducer(oldState, unfollowUser("Antonette"));
+    // newState = riceBookReducer(newState, queryPosts());
+    console.log(oldStateNum);
+    console.log(newState.posts.length);
     expect(oldStateNum > newState.posts.length);
 })
 
 test('should fetch the logged in user\'s profile username', () => {
-    let newState = riceBookReducer(undefined, login('Bret','Kulas Light'));
+    let oldState = riceBookReducer(undefined, getUsers(Users));
+    oldState = riceBookReducer(oldState, getPosts(Posts));
+    let newState = riceBookReducer(oldState, login('Bret','Kulas Light'));
     expect(newState.currentUser.username).toEqual('Bret');
 })
