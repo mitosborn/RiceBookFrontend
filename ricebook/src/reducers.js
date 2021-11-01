@@ -25,11 +25,12 @@ const initialState = {
     customUser: false,
     loggedIn: false,
     error: false,
-    comments: {}
+    comments: {},
+    initialFollowMap: {1:[2,3,4], 2:[3,4,5], 3:[4,5,6], 4:[5,6,7],5:[6,7,8],6:[7,8,9],7:[8,9,10],8:[9,10,1],9:[10,1,2],10:[1,2,3]}
 };
 const defaultUser = {"username":"placeholder", "name":"Brett", "img":"https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg", "headline":"At work", id:1, email:"someemail@email.com", address:{street:"somestreet", zipcode:85641}} // If custom, need to rename Brett to custom user
 const pictures = ["https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg", "https://images.pexels.com/photos/145939/pexels-photo-145939.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500","https://images.unsplash.com/photo-1614107696198-e5b2273fd3c3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80", "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg"]
-const initialFollowMap = {1:[2,3,4], 2:[3,4,5], 3:[4,5,6], 4:[5,6,7],5:[6,7,8],6:[7,8,9],7:[8,9,10],8:[9,10,1],9:[10,1,2],10:[1,2,3]}
+// const initialFollowMap = {1:[2,3,4], 2:[3,4,5], 3:[4,5,6], 4:[5,6,7],5:[6,7,8],6:[7,8,9],7:[8,9,10],8:[9,10,1],9:[10,1,2],10:[1,2,3]}
 
 // From https://stackoverflow.com/questions/31378526/generate-random-date-between-two-dates-and-times-in-javascript
 function randomDate(start, end, startHour, endHour) {
@@ -68,7 +69,7 @@ export function riceBookReducer(state = initialState, action) {
                 all_posts.push(post)
 
             }
-            console.log([...initialFollowMap[state.currentUser["id"]], state.currentUser["id"]])
+            console.log([...state.initialFollowMap[state.currentUser["id"]], state.currentUser["id"]])
             followed_posts = followed_posts.sort((a,b)=>b.date-a.date)
             all_posts = all_posts.sort((a,b)=>b.date-a.date)
 
@@ -126,7 +127,7 @@ export function riceBookReducer(state = initialState, action) {
                         logged_in = user;
                     }
                 })
-                initialFollowMap[logged_in["id"]].forEach(user => {
+                state.initialFollowMap[logged_in["id"]].forEach(user => {
                     followedUsers.push(state.users[user-1])
                 });
                 console.log(logged_in)
@@ -145,12 +146,11 @@ export function riceBookReducer(state = initialState, action) {
             // Set user equal to default user with the custom username inputted
             let newUserFollowedUsers = []
             let newUser = {...defaultUser, user:action.userInfo.accountName, username:action.userInfo.accountName,email:action.userInfo.email, address:{...defaultUser.address, zipcode:action.userInfo.zipcode, street:action.userInfo.password}, phone: action.userInfo.phone, id:11};
-            initialFollowMap[newUser["id"]] = [0];
             newUserFollowedUsers.push(state.users[0]);
-            return {...state, followedUsers: newUserFollowedUsers, currentUser:newUser, customUser: true, loggedIn: true}
+            return {...state, initialFollowMap:{...state.initialFollowMap, 11:[0]}, followedUsers: newUserFollowedUsers, currentUser:newUser, customUser: true, loggedIn: true}
         case UPDATE_HEADLINE:
             console.log("Updated headline");
-            return {...state, currentUser: {...state.currentUser, headline: action.headline}};
+            return {...state ,currentUser: {...state.currentUser, headline: action.headline}};
         case GET_COMMENTS:
             return state;
         default:

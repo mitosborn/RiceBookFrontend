@@ -3,11 +3,14 @@ import Post from "./Post";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import {useState} from "react";
 function AddPost({user, defaultImg, addPost}) {
+    console.log(defaultImg);
     const [showPost, setShowPost] = useState(false);
     const [newPostText, setNewPostText] = useState("");
     const [includeImg, setIncludeImg] = useState(true);
     const createPost = () => {
+        console.log(includeImg);
         addPost({name:user,img:includeImg ? defaultImg: "",title:"untitled",date:new Date(),body:newPostText,headline:"Busy right now"});
+        setIncludeImg(true);
     }
 
 
@@ -26,7 +29,7 @@ function AddPost({user, defaultImg, addPost}) {
                     </Col>
                     <Col md={5}>
                         <Form.Group controlId="formFileSm" className="mb-3">
-                            <Form.Check type="checkbox" size="sm" label="No image" onChange={() => setIncludeImg()}/>
+                            <Form.Check type="checkbox" size="sm" label="No image" onClick={() => setIncludeImg(includeImg => !includeImg)}/>
                         </Form.Group>
                     </Col>
                 </Row>
