@@ -6,7 +6,7 @@ function AddFollower({user, defaultImg, followFtn}) {
     const [showPost, setShowPost] = useState(false);
     const [newPostText, setNewPostText] = useState("");
     const followUser = () => {
-        followFtn({username:newPostText,name:newPostText, img:defaultImg, title:"untitled", date:new Date(), body:newPostText, headline:"Busy right now"});
+        followFtn(newPostText);
     }
 
     return (

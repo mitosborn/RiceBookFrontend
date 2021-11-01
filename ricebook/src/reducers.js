@@ -97,7 +97,7 @@ export function riceBookReducer(state = initialState, action) {
 
             return {...state, users: allUsers, userLoginInfo: userLoginInfo}
         case FOLLOW_USER:
-            let JSONUsers = state.users.filter(user => user.username == action.user.username.trim())
+            let JSONUsers = state.users.filter(user => user.username == action.user.trim())
             // Only add users that exist + are not already followed
             if (JSONUsers && !state.followedUsers.includes(JSONUsers[0])) {
                 return riceBookReducer({...state, followedUsers:[...state.followedUsers, JSONUsers[0]]}, queryPosts(state.lastQuery));
