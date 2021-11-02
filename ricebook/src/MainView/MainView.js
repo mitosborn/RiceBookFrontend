@@ -16,7 +16,6 @@ function MainView() {
     let posts = useSelector((state) => state.posts)
     let followedUsers = useSelector((state) => state.followedUsers)
     let currentUser = useSelector((state) => state.currentUser);
-    let lastQuery = useSelector((state) => state.lastQuery);
     let loggedIn = useSelector((state) => state.loggedIn);
     const dispatch = useDispatch();
     const history = useHistory();

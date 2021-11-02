@@ -144,8 +144,9 @@ export function riceBookReducer(state = initialState, action) {
             // console.log(action.userInfo)
             // Set user equal to default user with the custom username inputted
             let newUserFollowedUsers = []
-            let newUser = {...defaultUser, user:action.userInfo.accountName, username:action.userInfo.accountName,email:action.userInfo.email, address:{...defaultUser.address, zipcode:action.userInfo.zipcode, street:action.userInfo.password}, phone: action.userInfo.phone, id:11};
+            let newUser = {...defaultUser, name:action.userInfo.name, user:action.userInfo.accountName, username:action.userInfo.accountName,email:action.userInfo.email, address:{...defaultUser.address, zipcode:action.userInfo.zipcode, street:action.userInfo.password}, phone: action.userInfo.phone, id:11};
             newUserFollowedUsers.push(state.users[0]);
+            console.log(newUser);
             return {...state, initialFollowMap:{...state.initialFollowMap, 11:[0]}, followedUsers: newUserFollowedUsers, currentUser:newUser, customUser: true, loggedIn: true}
         case UPDATE_HEADLINE:
             // console.log("Updated headline");

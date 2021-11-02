@@ -8,6 +8,7 @@ function Register({registerFtn}) {
     const [ form, setForm ] = useState({})
     const [ errors, setErrors ] = useState({})
     const [accountName, setAccountName] = useState("");
+    const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
     const [zipcode, setZipcode] = useState("");
     const [password, setPassword] = useState("");
@@ -38,7 +39,7 @@ function Register({registerFtn}) {
         }
         else if(form.checkValidity()) {
             console.log("called register")
-            registerFtn({accountName, email, zipcode, password: password, phone});
+            registerFtn({accountName, name:displayName, email, zipcode, password: password, phone});
             history.push({
                 pathname:"/"
             })
@@ -107,6 +108,7 @@ function Register({registerFtn}) {
                     <Form.Control
                         required
                         type="text"
+                        onChange={(e)=> setDisplayName(e.target.value)}
                         placeholder="Display Name"
                     />
                 </Form.Group>
