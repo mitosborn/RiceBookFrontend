@@ -2,6 +2,7 @@
 - url: https://hw5mbo2.surge.sh/
 
 ## Notes
-- Test Coverage screenshot is in src (TestCoverageScreenshot.png).
+- Tests passing screenshot is in src (src/TestsPass.png).
+    - Tests are in src/reducers.test.js
 - Achieved > 80% coverage in reducers.js (using Redux).
-- Tests are in src/reducers.test.js
+    - Shown in coverage folder
