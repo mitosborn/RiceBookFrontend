@@ -5,7 +5,7 @@ import "../stylesheets/LoginPage.css"
 import {getUsers, login, registerUser} from "../actions";
 import {useDispatch} from "react-redux";
 import {useMemo} from "react";
-import { useHistory } from 'react-router-dom'
+
 // React form validation based on https://dev.to/alecgrey/controlled-forms-with-front-and-backend-validations-using-react-bootstrap-5a2
 function LoginPage(){
     const dispatch = useDispatch();
