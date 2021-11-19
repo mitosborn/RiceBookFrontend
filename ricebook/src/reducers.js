@@ -25,6 +25,7 @@ const initialState = {
     customUser: false,
     loggedIn: false,
     error: false,
+    followError: false,
     comments: {},
     initialFollowMap: {1:[2,3,4], 2:[3,4,5], 3:[4,5,6], 4:[5,6,7],5:[6,7,8],6:[7,8,9],7:[8,9,10],8:[9,10,1],9:[10,1,2],10:[1,2,3]}
 };
@@ -97,23 +98,28 @@ export function riceBookReducer(state = initialState, action) {
             return {...state, users: allUsers, userLoginInfo: userLoginInfo}
         case FOLLOW_USER:
             let JSONUsers = state.users.filter(user => user.username == action.user.trim())
+            console.log(JSONUsers)
             // Only add users that exist + are not already followed
-            if (JSONUsers && !state.followedUsers.includes(JSONUsers[0])) {
-                return riceBookReducer({...state, followedUsers:[...state.followedUsers, JSONUsers[0]]}, queryPosts(state.lastQuery));
+            if (JSONUsers.length > 0 && !state.followedUsers.includes(JSONUsers[0])) {
+                return riceBookReducer({...state, followError: false, followedUsers:[...state.followedUsers, JSONUsers[0]]}, queryPosts(state.lastQuery));
             }
             // Followed user doesn't exist; add nothing
-            return state;
+            return {...state, followError: true};
         case UNFOLLOW_USER:
             // console.log(action.unfollowedUser)
             let new_followed = state.followedUsers.filter(user => user.username != action.unfollowedUser)
             return riceBookReducer({...state, followedUsers:new_followed}, queryPosts(state.lastQuery));
         case QUERY_POSTS:
             let queried_posts;
-            if(action.query){
-                queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId) && (user.body.includes(action.query) || user.name.includes(action.query)))
-            }
-            else {
-                queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId))
+            try {
+                if(action.query){
+                    queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId) && (user.body.includes(action.query) || user.name.includes(action.query)))
+                }
+                else {
+                    queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId))
+                }
+            }catch(e){
+                return state
             }
             return {...state, posts: queried_posts, lastQuery:action.query}
         case LOGIN:
