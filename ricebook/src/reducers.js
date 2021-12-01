@@ -132,11 +132,11 @@ export function riceBookReducer(state = initialState, action) {
             console.log("LOGIN Called")
             console.log(action.newUserArticles);
             console.log(action.followedUserProfiles)
-            let profiles = action.followedUserProfiles['profiles']
-            let articles = action.newUserArticles['articles'];
+            let profiles = action.followedUserProfiles
+            let articles = action.newUserArticles;
             console.log("API Articles")
             console.log(articles)
-            return {...state, followedUsers: profiles, currentUser: action.username, loggedIn: true, posts: articles, error: false}
+            return {...state, followedUsers: profiles, currentUser: action.loggedInProfile, loggedIn: true, posts: articles, error: false}
 
             // // Input: followed users, newUser, newUserArticles
             // if(state.userLoginInfo[action.username] && state.userLoginInfo[action.username] == action.password) {
@@ -175,7 +175,7 @@ export function riceBookReducer(state = initialState, action) {
         case UPDATE_HEADLINE:
             console.log("UPDATE_HEADLINE Called")
             // console.log("Updated headline");
-            return {...state ,currentUser: {...state.currentUser, headline: action.headline}};
+            return {...state ,currentUser: {...state.currentUser, status: action.headline}};
         default:
             return state;
 

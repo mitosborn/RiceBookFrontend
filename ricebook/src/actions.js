@@ -40,8 +40,8 @@ export function queryPosts(query) {
     return {type: QUERY_POSTS, query}
 }
 
-export function login(username, password, followedUserProfiles, newUser, newUserArticles) {
-    return {type: LOGIN, username, password, followedUserProfiles, newUser, newUserArticles}
+export function login(username, password, followedUserProfiles, newUser, newUserArticles, loggedInProfile) {
+    return {type: LOGIN, username, password, followedUserProfiles, newUser, newUserArticles, loggedInProfile}
 }
 
 export function logout() {
@@ -66,7 +66,7 @@ export function url(path) {
 // }
 async function fetchLogin(username, password) {
     let loginUser = {username, password};
-    let status, following, articles;
+    let status, following, articles, loggedInProfile;
     status = await fetch(url('/login'), {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
@@ -77,57 +77,19 @@ async function fetchLogin(username, password) {
                                 method: 'GET',
                                 headers: {'Content-Type': 'application/json'},
                                 credentials: 'include'
-                            }).then(res => res.json())
+                            }).then(res => res.json()).then(res => res['profiles'])
     articles = await fetch(url('/articles'), {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include'
-    }).then(res => res.json())
-    return {status, following, articles, username, password}
-    //     .then(response => {
-    //     return {response, username, password}
-    // })
+    }).then(res => res.json()).then(res => res['articles'])
 
-    //     .then(response => {
-    //     return Promise.all([fetch(url('/following'), {
-    //                         method: 'GET',
-    //                         headers: {'Content-Type': 'application/json'},
-    //                         credentials: 'include'
-    //                     }).then(res => res.json()), fetch(url('/articles'), {
-    //                         method: 'GET',
-    //                         headers: {'Content-Type': 'application/json'},
-    //                         credentials: 'include'
-    //                     }).then(res => res.json()), response['username'], response['password']])
-    // })
-    //     .then(res => {
-    //     if (res.status != 200) {
-    //         status = -1
-    //     } else {
-    //         return res.json().then(res => {
-    //             // Get followers
-    //             fetch(url('/following'), {
-    //                 method: 'GET',
-    //                 headers: {'Content-Type': 'application/json'},
-    //                 credentials: 'include'
-    //             }).then(res => res.json()).then(res => {
-    //                 console.log(res);
-    //                 following = res['following']
-    //                 ///////
-    //                 fetch(url('/articles'), {
-    //                     method: 'GET',
-    //                     headers: {'Content-Type': 'application/json'},
-    //                     credentials: 'include'
-    //                 }).then(res => res.json()).then(res => {
-    //                     console.log(res);
-    //                     articles = res['articles']
-    //                 })
-    //             })
-    //             // Get new articles
-    //             // Use set articles query (For now use queryArticles)
-    //             return {articles, following, username, password}
-    //         })
-    //     }
-    // }).catch(err => console.log(err))
+    loggedInProfile = await fetch(url('/profile'), {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+    }).then(res => res.json()).then(res => res['profile'])
+    return {status, following, articles, username, password, loggedInProfile}
 }
 
 
@@ -138,12 +100,33 @@ export function doLogin(username, password, redirect) {
         return fetchLogin(username, password).then(res => {
             console.log(res);
             if (res.status == 200){
-                dispatch(login(res['username'], res['password'], res['following'], res['username'], res['articles']))
+                dispatch(login(res['username'], res['password'], res['following'], res['username'], res['articles'], res['loggedInProfile']))
             }
             redirect(res.status) // Redirect on 200, error otherwise
         })
     }
 }
+
+export function doHeadlineUpdate(newHeadline) {
+    return function (dispatch) {
+        console.log("Within doHeadlineUpdate")
+        return fetch(url('/headline'), {
+                method: 'PUT',
+                headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+                body: JSON.stringify({"headline":newHeadline}),
+                credentials: 'include'
+            }).then(res => res.status)
+        .then(status => {
+            console.log(status);
+            if (status == 200){
+                dispatch(updateHeadline(newHeadline))
+            }
+            //TODO: Raise error on response
+        })
+    }
+}
+
+
 // Populate articles
 // Followed users
     // Unfollow (DELETE) -> call articles again

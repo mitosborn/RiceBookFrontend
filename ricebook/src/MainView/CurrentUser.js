@@ -4,13 +4,13 @@ import logo from "../img/logo192.png";
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logout, updateHeadline} from "../actions";
+import {doHeadlineUpdate, logout, updateHeadline} from "../actions";
 
 function CurrentUser() {
     const [showPost, setShowPost] = useState(false);
-    const name = useSelector((state)=> state.currentUser.name);
-    const img = useSelector((state)=> state.currentUser.img);
-    const currentHeadline = useSelector((state)=> state.currentUser.headline);
+    const name = useSelector((state)=> state.currentUser.username);
+    const img = useSelector((state)=> state.currentUser.picture);
+    const currentHeadline = useSelector((state)=> state.currentUser.status);
     const [newHeadline, setNewHeadline] = useState("");
     const history = useHistory();
     const dispatch = useDispatch();
@@ -57,7 +57,7 @@ function CurrentUser() {
                         <Col className = {"col-12"}>
                             <div className="d-flex justify-content-center">
                                 <Button type="reset" className="currentUserBtn btn btn-default mb-2">Clear</Button>
-                                <Button onClick={()=>dispatch(updateHeadline(newHeadline))} className="currentUserBtn btn btn-default mb-2">Post</Button>
+                                <Button onClick={()=>dispatch(doHeadlineUpdate(newHeadline))} className="currentUserBtn btn btn-default mb-2">Post</Button>
                             </div>
                         </Col>
                     </Row>
