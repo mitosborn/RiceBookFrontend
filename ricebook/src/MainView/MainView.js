@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getPosts, getUsers, addPost, followUser, unfollowUser, queryPosts, getComments} from "../actions";
@@ -10,7 +11,7 @@ import CurrentUser from "./CurrentUser.js"
 import AddFollower from "./AddFollower";
 import SearchBar from "./SearchBar";
 import { useHistory } from 'react-router-dom'
-
+const url = path => `http://localhost:3000${path}`;
 
 function MainView() {
     let posts = useSelector((state) => state.posts)
@@ -39,6 +40,12 @@ function MainView() {
             //     dispatch(getComments(res));
             // }, []);
         }
+
+
+
+
+
+
     },[])
 
 

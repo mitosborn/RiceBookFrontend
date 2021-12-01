@@ -56,6 +56,90 @@ export function updateHeadline(headline) {
     return {type: UPDATE_HEADLINE, headline}
 }
 
+
+export function url(path) {
+    return `http://localhost:3000${path}`
+}
+
 // export function getComments(comments) {
 //     return {type: GET_COMMENTS, comments}
 // }
+async function fetchLogin(username, password) {
+    let loginUser = {username, password};
+    let status, following, articles;
+    status = await fetch(url('/login'), {
+        method: 'POST',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body: JSON.stringify(loginUser),
+        credentials: 'include'
+    }).then(res => res.status)
+    following = await fetch(url('/following'), {
+                                method: 'GET',
+                                headers: {'Content-Type': 'application/json'},
+                                credentials: 'include'
+                            }).then(res => res.json())
+    articles = await fetch(url('/articles'), {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+    }).then(res => res.json())
+    return {status, following, articles, username, password}
+    //     .then(response => {
+    //     return {response, username, password}
+    // })
+
+    //     .then(response => {
+    //     return Promise.all([fetch(url('/following'), {
+    //                         method: 'GET',
+    //                         headers: {'Content-Type': 'application/json'},
+    //                         credentials: 'include'
+    //                     }).then(res => res.json()), fetch(url('/articles'), {
+    //                         method: 'GET',
+    //                         headers: {'Content-Type': 'application/json'},
+    //                         credentials: 'include'
+    //                     }).then(res => res.json()), response['username'], response['password']])
+    // })
+    //     .then(res => {
+    //     if (res.status != 200) {
+    //         status = -1
+    //     } else {
+    //         return res.json().then(res => {
+    //             // Get followers
+    //             fetch(url('/following'), {
+    //                 method: 'GET',
+    //                 headers: {'Content-Type': 'application/json'},
+    //                 credentials: 'include'
+    //             }).then(res => res.json()).then(res => {
+    //                 console.log(res);
+    //                 following = res['following']
+    //                 ///////
+    //                 fetch(url('/articles'), {
+    //                     method: 'GET',
+    //                     headers: {'Content-Type': 'application/json'},
+    //                     credentials: 'include'
+    //                 }).then(res => res.json()).then(res => {
+    //                     console.log(res);
+    //                     articles = res['articles']
+    //                 })
+    //             })
+    //             // Get new articles
+    //             // Use set articles query (For now use queryArticles)
+    //             return {articles, following, username, password}
+    //         })
+    //     }
+    // }).catch(err => console.log(err))
+}
+
+
+
+export function doLogin(username, password, redirect) {
+    return function (dispatch) {
+        console.log("Within doLogin")
+        return fetchLogin(username, password).then(res => {
+            console.log(res);
+            dispatch(login(res['username'], res['password']))
+            if (res.status == 200)
+                redirect()
+        })
+    }
+}

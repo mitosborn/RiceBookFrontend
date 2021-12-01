@@ -17,15 +17,17 @@ function Login({loginFtn}) {
         console.log(userLoginInfo)
         event.preventDefault();
         setValidated(true);
-        loginFtn(accountName, password);
+        loginFtn(accountName, password, () => history.push({
+            pathname:"/"
+        }));
         console.log(accountName + " " + password);
 
         console.log(showAlert);
-        if (!showAlert) {
-            history.push({
-                pathname:"/"
-            })
-        }
+        // if (!showAlert) {
+        //     history.push({
+        //         pathname:"/"
+        //     })
+        // }
     };
 
 

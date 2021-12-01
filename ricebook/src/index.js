@@ -8,14 +8,42 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from "./LoginPage/LoginPage";
 import ProfileView from "./ProfileView/ProfileView";
 import MainView from "./MainView/MainView";
+import {
+    createStore,
+    combineReducers,
+    compose,
+    applyMiddleware,
+} from 'redux';
+import thunk from 'redux-thunk';
+import {riceBookReducer} from './reducers';
 import { PersistGate } from 'redux-persist/integration/react'
 import configureStore from './configureStore.js';
 
-let {store, persistor} = configureStore();
+// let {store, persistor} = configureStore();
+function saveToLocalStorage(state) {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('state', serializedState);
+}
+
+function loadFromLocalStorage() {
+    const serializedState = localStorage.getItem('state');
+    if (serializedState === null) return undefined;
+    return JSON.parse(serializedState);
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const presistedState = loadFromLocalStorage();
+const store = createStore(
+    riceBookReducer,
+    presistedState,
+    composeEnhancers(applyMiddleware(thunk)),
+);
+store.subscribe(() => saveToLocalStorage(store.getState()));
+
 
 ReactDOM.render(
         <Provider store={ store }>
-            <PersistGate loading={null} persistor={persistor}>
+            {/*<PersistGate loading={null} persistor={persistor}>*/}
                 <Router>
                     <Switch>
                         <Route exact path={"/"}>
@@ -29,7 +57,7 @@ ReactDOM.render(
                         </Route>
                     </Switch>
                 </Router>
-            </PersistGate>
+            {/*</PersistGate>*/}
         </Provider>
  ,
     document.getElementById('root')

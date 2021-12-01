@@ -135,7 +135,8 @@ export function riceBookReducer(state = initialState, action) {
                 state.initialFollowMap[logged_in["id"]].forEach(user => {
                     followedUsers.push(state.users[user-1])
                 });
-                // console.log(logged_in)
+                console.log(logged_in)
+                // return {...state, followedUsers: followedUsers, currentUser: logged_in, loggedIn: true, error: false}
                 return riceBookReducer({...state, followedUsers: followedUsers, currentUser: logged_in, loggedIn: true, error: false}, queryPosts(state.lastQuery));
             }
             else {

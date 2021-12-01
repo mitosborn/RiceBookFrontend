@@ -2,7 +2,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import Register from "./Register";
 import Login from "./Login";
 import "../stylesheets/LoginPage.css"
-import {getUsers, login, registerUser} from "../actions";
+import {doLogin, fetchLogin, getUsers, login, registerUser, url} from "../actions";
 import {useDispatch} from "react-redux";
 import {useMemo} from "react";
 
@@ -17,6 +17,48 @@ function LoginPage(){
 
         }, []);
     })
+
+    const loginFCTN = (username, password) => {
+        let loginUser = {username, password};
+        let status, following, articles;
+        fetch(url('/login'), {
+            method: 'POST',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+            body: JSON.stringify(loginUser),
+            credentials: 'include'
+        }).then(res => {
+            if (res.status != 200) {
+                status = -1
+            } else {
+                res.json().then(res => {
+                    dispatch(login(username, password))
+
+                    // Get followers
+                    fetch(url('/following'), {
+                        method: 'GET',
+                        headers: {'Content-Type': 'application/json'},
+                        credentials: 'include'
+                    }).then(res => res.json()).then(res => {
+                        console.log(res);
+                        following = res['following']
+                        ///////
+                        fetch(url('/articles'), {
+                            method: 'GET',
+                            headers: {'Content-Type': 'application/json'},
+                            credentials: 'include'
+                        }).then(res => res.json()).then(res => {
+                            console.log(res);
+                            articles = res['articles']
+                        })
+                    })
+                    // Get new articles
+                    // Use set articles query (For now use queryArticles)
+
+                }).then(res => dispatch(login(username, password)));
+            }
+        }).then(res => console.log(res)).catch(err => console.log(err))
+    }
+
 
     return <div className={"LoginPagee"}>
         <Container className={"container-fluid"}>
@@ -40,9 +82,11 @@ function LoginPage(){
                         <h1 className="text">Login</h1>
                     </Row>
                     <Row>
-                        <Login loginFtn={(userName, password)=>{
-                            dispatch(login(userName, password))
-                            }}/>
+                        <Login loginFtn={async (username, password, redirect) => {
+                            await dispatch(doLogin(username, password, redirect))
+                            console.log("Called dispatch")
+                        }
+                        }/>
                     </Row>
                 </Col>
 
