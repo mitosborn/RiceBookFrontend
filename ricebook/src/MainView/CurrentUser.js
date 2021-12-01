@@ -4,7 +4,7 @@ import logo from "../img/logo192.png";
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {doHeadlineUpdate, logout, updateHeadline} from "../actions";
+import {doHeadlineUpdate, doLogout, logout, updateHeadline} from "../actions";
 
 function CurrentUser() {
     const [showPost, setShowPost] = useState(false);
@@ -17,10 +17,9 @@ function CurrentUser() {
 
 
     const logoutApp = () => {
-        dispatch(logout())
-        history.push(
+        dispatch(doLogout(() => history.push(
             {pathname:"/login"}
-        )
+        )))
     }
 
     return (

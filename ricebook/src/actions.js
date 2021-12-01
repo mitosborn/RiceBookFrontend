@@ -28,8 +28,8 @@ export function getUsers(users) {
     return {type: GET_USERS, users}
 }
 
-export function followUser(user) {
-    return {type: FOLLOW_USER, user}
+export function followUser(newArticles, newFollowers, error) {
+    return {type: FOLLOW_USER, newArticles, newFollowers, error}
 }
 
 export function unfollowUser(unfollowedUser) {
@@ -123,6 +123,60 @@ export function doHeadlineUpdate(newHeadline) {
             }
             //TODO: Raise error on response
         })
+    }
+}
+
+export function doLogout(redirect) {
+    return function (dispatch) {
+        console.log("Within doLogout")
+        return fetch(url('/logout'), {
+            method: 'PUT',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+            credentials: 'include'
+        }).then(res => {
+            console.log(res);
+            if (res.status == 200){
+                dispatch(logout())
+                redirect() // Redirect on 200, error otherwise
+            }
+        })
+    }
+}
+
+
+export function doFollowUser(newFollowName) {
+    return function (dispatch) {
+        console.log("Within doLogout")
+        return (async () => {
+            let status = await fetch(url('/following/' + newFollowName), {
+                method: 'PUT',
+                headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+                credentials: 'include'
+            }).then(res => res.status)
+            console.log("FollowStatus" + status);
+            if(status != 200){
+                return Promise.reject("User doesn't exist")
+            }
+            else {
+                let newFollowers = await fetch(url('/profiles/following'), {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'},
+                    credentials: 'include'
+                }).then(res => res.json()).then(res => res['profiles'])
+
+                let newArticles = await fetch(url('/articles'), {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'},
+                    credentials: 'include'
+                }).then(res => res.json()).then(res => res['articles'])
+
+                return {newFollowers, newArticles}
+            }
+        })()
+    .then(res => {
+            console.log(res);
+            dispatch(followUser(res['newArticles'], res['newFollowers'], false))
+        }).catch(err => dispatch(followUser([], [], true)))
     }
 }
 

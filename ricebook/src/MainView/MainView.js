@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getPosts, getUsers, addPost, followUser, unfollowUser, queryPosts, getComments} from "../actions";
+import {getPosts, getUsers, addPost, followUser, unfollowUser, queryPosts, getComments, doFollowUser} from "../actions";
 import {Col, Container, Row} from "react-bootstrap";
 import "../stylesheets/MainView.css";
 import FollowedUsersContainer from './FollowedUsersContainer';
@@ -57,7 +57,7 @@ function MainView() {
     }
 
     const followFtn = (user) => {
-        dispatch(followUser(user))
+        dispatch(doFollowUser(user))
         // dispatch(queryPosts(lastQuery));
     }
 

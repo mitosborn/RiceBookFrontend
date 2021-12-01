@@ -101,14 +101,17 @@ export function riceBookReducer(state = initialState, action) {
             return {...state, users: allUsers, userLoginInfo: userLoginInfo}
         case FOLLOW_USER:
             console.log("FOLLOW_USER Called")
-            let JSONUsers = state.users.filter(user => user.username == action.user.trim())
-            console.log(JSONUsers)
-            // Only add users that exist + are not already followed
-            if (JSONUsers.length > 0 && !state.followedUsers.includes(JSONUsers[0])) {
-                return riceBookReducer({...state, followError: false, followedUsers:[...state.followedUsers, JSONUsers[0]]}, queryPosts(state.lastQuery));
+            // let JSONUsers = state.users.filter(user => user.username == action.user.trim())
+            // console.log(JSONUsers)
+            // // Only add users that exist + are not already followed
+            // if (JSONUsers.length > 0 && !state.followedUsers.includes(JSONUsers[0])) {
+            //     return riceBookReducer({...state, followError: false, followedUsers:[...state.followedUsers, JSONUsers[0]]}, queryPosts(state.lastQuery));
+            // }
+            if (action.error)
+                return {...state, followError: true};
+            else {
+                return {...state, followedUsers: action.newFollowers, posts: action.newArticles, followError: false};
             }
-            // Followed user doesn't exist; add nothing
-            return {...state, followError: true};
         case UNFOLLOW_USER:
             console.log("UNFOLLOW_USER Called")
             // console.log(action.unfollowedUser)
