@@ -8,8 +8,8 @@ function Login({loginFtn}) {
     const [accountName, setAccountName] = useState("");
     const [password, setPassword] = useState("");
     let userLoginInfo = useSelector((state) => state.userLoginInfo);
-    // const [showAlert, setShow] = useState(false);
-    let showAlert = useSelector((state) => state.error);
+    const [showAlert, setShowAlert] = useState(false);
+    // let showAlert = useSelector((state) => state.error);
     const history = useHistory();
 
     const handleSubmit = (event) => {
@@ -17,9 +17,17 @@ function Login({loginFtn}) {
         console.log(userLoginInfo)
         event.preventDefault();
         setValidated(true);
-        loginFtn(accountName, password, () => history.push({
-            pathname:"/"
-        }));
+        loginFtn(accountName, password, (status) => {
+            if(status == 200){
+                setShowAlert(false)
+                history.push({
+                    pathname:"/"
+                });
+            } else {
+                setShowAlert(true)
+            }
+        })
+
         console.log(accountName + " " + password);
 
         console.log(showAlert);

@@ -40,8 +40,8 @@ export function queryPosts(query) {
     return {type: QUERY_POSTS, query}
 }
 
-export function login(username, password) {
-    return {type: LOGIN, username, password}
+export function login(username, password, followedUsers, newUser, newUserArticles) {
+    return {type: LOGIN, username, password, followedUsers, newUser, newUserArticles}
 }
 
 export function logout() {
@@ -137,9 +137,17 @@ export function doLogin(username, password, redirect) {
         console.log("Within doLogin")
         return fetchLogin(username, password).then(res => {
             console.log(res);
-            dispatch(login(res['username'], res['password']))
-            if (res.status == 200)
-                redirect()
+            if (res.status == 200){
+                dispatch(login(res['username'], res['password'], res['followed'], res['username'], res['articles']))
+            }
+            redirect(res.status) // Redirect on 200, error otherwise
         })
     }
 }
+// Populate articles
+// Followed users
+    // Unfollow (DELETE) -> call articles again
+
+// Backend Q's:
+// How do I search for an article in GraphQL?
+// How do I sort them by date?
