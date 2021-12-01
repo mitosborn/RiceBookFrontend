@@ -40,8 +40,8 @@ export function queryPosts(query) {
     return {type: QUERY_POSTS, query}
 }
 
-export function login(username, password, followedUsers, newUser, newUserArticles) {
-    return {type: LOGIN, username, password, followedUsers, newUser, newUserArticles}
+export function login(username, password, followedUserProfiles, newUser, newUserArticles) {
+    return {type: LOGIN, username, password, followedUserProfiles, newUser, newUserArticles}
 }
 
 export function logout() {
@@ -73,7 +73,7 @@ async function fetchLogin(username, password) {
         body: JSON.stringify(loginUser),
         credentials: 'include'
     }).then(res => res.status)
-    following = await fetch(url('/following'), {
+    following = await fetch(url('/profiles/following'), {
                                 method: 'GET',
                                 headers: {'Content-Type': 'application/json'},
                                 credentials: 'include'
@@ -138,7 +138,7 @@ export function doLogin(username, password, redirect) {
         return fetchLogin(username, password).then(res => {
             console.log(res);
             if (res.status == 200){
-                dispatch(login(res['username'], res['password'], res['followed'], res['username'], res['articles']))
+                dispatch(login(res['username'], res['password'], res['following'], res['username'], res['articles']))
             }
             redirect(res.status) // Redirect on 200, error otherwise
         })

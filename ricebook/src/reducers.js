@@ -131,30 +131,33 @@ export function riceBookReducer(state = initialState, action) {
         case LOGIN:
             console.log("LOGIN Called")
             console.log(action.newUserArticles);
+            console.log(action.followedUserProfiles)
+            let profiles = action.followedUserProfiles['profiles']
             let articles = action.newUserArticles['articles'];
             console.log("API Articles")
             console.log(articles)
-            // Input: followed users, newUser, newUserArticles
-            if(state.userLoginInfo[action.username] && state.userLoginInfo[action.username] == action.password) {
-                // console.log("Valid user")
-                let logged_in;
-                let followedUsers = [];
-                state.users.forEach(user => {
-                    if(user.username == action.username){
-                        logged_in = user;
-                    }
-                })
-                state.initialFollowMap[logged_in["id"]].forEach(user => {
-                    followedUsers.push(state.users[user-1])
-                });
-                console.log(logged_in)
-                return {...state, followedUsers: followedUsers, currentUser: logged_in, loggedIn: true, posts: articles, error: false}
-                // return riceBookReducer({...state, followedUsers: followedUsers, currentUser: logged_in, loggedIn: true, error: false}, queryPosts(state.lastQuery));
-            }
-            else {
-                // console.log("Invalid user")
-                return {...state, error: true, loggedIn: false}
-            }
+            return {...state, followedUsers: profiles, currentUser: action.username, loggedIn: true, posts: articles, error: false}
+
+            // // Input: followed users, newUser, newUserArticles
+            // if(state.userLoginInfo[action.username] && state.userLoginInfo[action.username] == action.password) {
+            //     // console.log("Valid user")
+            //     // let logged_in;
+            //     // let followedUsers = [];
+            //     // state.users.forEach(user => {
+            //     //     if(user.username == action.username){
+            //     //         logged_in = user;
+            //     //     }
+            //     // })
+            //     // state.initialFollowMap[logged_in["id"]].forEach(user => {
+            //     //     followedUsers.push(state.users[user-1])
+            //     // });
+            //     // console.log(logged_in)
+            //     // return riceBookReducer({...state, followedUsers: followedUsers, currentUser: logged_in, loggedIn: true, error: false}, queryPosts(state.lastQuery));
+            // }
+            // else {
+            //     // console.log("Invalid user")
+            //     return {...state, error: true, loggedIn: false}
+            // }
 
         case LOGOUT:
             console.log("LOGOUT Called")
