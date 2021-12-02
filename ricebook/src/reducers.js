@@ -44,11 +44,7 @@ export function riceBookReducer(state = initialState, action) {
     switch (action.type) {
         // update state with requested players from the dummy server
         case ADD_POST:
-            console.log("ADD_POST Called")
-            let newPost = action.post;
-            action.post["id"] = state.newPostID;
-            action.post["userId"] = state.currentUser["id"]
-            return riceBookReducer({...state, posts: [newPost, ...state.posts], allPosts: [newPost, ...state.allPosts], newPostID: (state.newPostID + 1)}, queryPosts(state.lastQuery));
+            return riceBookReducer({...state, allPosts: action.posts}, queryPosts(state.lastQuery));
             break;
         case GET_POSTS:
             console.log("GET_POSTS Called")
@@ -99,7 +95,7 @@ export function riceBookReducer(state = initialState, action) {
             })
 
             return {...state, users: allUsers, userLoginInfo: userLoginInfo}
-        case FOLLOW_USER:
+        case FOLLOW_USER: // This sets allPosts and calls queryPosts
             console.log("FOLLOW_USER Called")
             // let JSONUsers = state.users.filter(user => user.username == action.user.trim())
             // console.log(JSONUsers)
@@ -110,27 +106,31 @@ export function riceBookReducer(state = initialState, action) {
             if (action.error)
                 return {...state, followError: true};
             else {
-                return {...state, followedUsers: action.newFollowers, posts: action.newArticles, followError: false};
+                return riceBookReducer({...state, followedUsers: action.newFollowers, allPosts: action.newArticles, followError: false}, queryPosts(state.lastQuery));
             }
-        case UNFOLLOW_USER:
+        case UNFOLLOW_USER: // This sets allPosts and calls queryPosts
             console.log("UNFOLLOW_USER Called")
             // console.log(action.unfollowedUser)
             let new_followed = state.followedUsers.filter(user => user.username != action.unfollowedUser)
             return riceBookReducer({...state, followedUsers:new_followed}, queryPosts(state.lastQuery));
         case QUERY_POSTS:
             console.log("QUERY_POSTS Called")
-            let queried_posts;
-            try {
-                if(action.query){
-                    queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId) && (user.body.includes(action.query) || user.name.includes(action.query)))
-                }
-                else {
-                    queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId))
-                }
-            }catch(e){
-                return state
-            }
+            let queried_posts = state.allPosts;
+            // try {
+            //     if(action.query){
+            //         queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId) && (user.body.includes(action.query) || user.name.includes(action.query)))
+            //     }
+            //     else {
+            //         queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId))
+            //     }
+            // }catch(e){
+            //     return state
+            // }
             return {...state, posts: queried_posts, lastQuery:action.query}
+        // case SET_POSTS:
+        //     return {...state, posts: action.posts}
+
+
         case LOGIN:
             console.log("LOGIN Called")
             console.log(action.newUserArticles);
@@ -139,7 +139,7 @@ export function riceBookReducer(state = initialState, action) {
             let articles = action.newUserArticles;
             console.log("API Articles")
             console.log(articles)
-            return {...state, followedUsers: profiles, currentUser: action.loggedInProfile, loggedIn: true, posts: articles, error: false}
+            return riceBookReducer({...state, followedUsers: profiles, currentUser: action.loggedInProfile, loggedIn: true, allPosts: articles, error: false}, queryPosts(state.lastQuery));
 
             // // Input: followed users, newUser, newUserArticles
             // if(state.userLoginInfo[action.username] && state.userLoginInfo[action.username] == action.password) {

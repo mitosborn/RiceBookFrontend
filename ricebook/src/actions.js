@@ -16,8 +16,8 @@ export const UPDATE_HEADLINE = "UPDATE_HEADLINE";
 /*
  * action creator
  */
-export function addPost(post) {
-    return {type: ADD_POST, post}
+export function addPost(posts) {
+    return {type: ADD_POST, posts}
 }
 
 export function getPosts(posts) {
@@ -58,7 +58,8 @@ export function updateHeadline(headline) {
 
 
 export function url(path) {
-    return `http://localhost:3000${path}`
+    // return `http://localhost:3000${path}`
+    return `https://finalbackend-mbo2.herokuapp.com${path}`
 }
 
 // export function getComments(comments) {
@@ -177,6 +178,21 @@ export function doFollowUser(newFollowName) {
             console.log(res);
             dispatch(followUser(res['newArticles'], res['newFollowers'], false))
         }).catch(err => dispatch(followUser([], [], true)))
+    }
+}
+
+export function doAddArticle(article) {
+    return function (dispatch, getState) {
+        console.log("Within doLogout")
+        return fetch(url('/article'), {
+            method: 'POST',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify(article)
+        }).then(res => res.json()).then(res => {
+            console.log(res);
+            dispatch(addPost(res['articles']));
+        })
     }
 }
 

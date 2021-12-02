@@ -1,7 +1,17 @@
 import axios from 'axios';
 import React, {useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getPosts, getUsers, addPost, followUser, unfollowUser, queryPosts, getComments, doFollowUser} from "../actions";
+import {
+    getPosts,
+    getUsers,
+    addPost,
+    followUser,
+    unfollowUser,
+    queryPosts,
+    getComments,
+    doFollowUser,
+    doAddArticle
+} from "../actions";
 import {Col, Container, Row} from "react-bootstrap";
 import "../stylesheets/MainView.css";
 import FollowedUsersContainer from './FollowedUsersContainer';
@@ -53,7 +63,7 @@ function MainView() {
 // 6 col has container that takes list of post components
 
     const createPost = (post) => {
-        dispatch(addPost(post));
+        dispatch(doAddArticle(post));
     }
 
     const followFtn = (user) => {
