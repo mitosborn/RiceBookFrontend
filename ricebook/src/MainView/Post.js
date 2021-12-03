@@ -73,34 +73,41 @@ function Post({user, date, img, text, comments, pid}) {
                             <p>{text}</p>
                         </div>
                     </Row>
-                {/*Place post text*/}
-                </Col>
-                <Col className={"col-4"}>
-                    <Row className={"mb-4"}>
-                            <div className={"commentBox"}>
-                                <h4 className={"commentTitle"}>Comments</h4>
-                                <div> 
-                                    {comments.map(c => <Comment key={c.id} user={c.author} body={c.text} id={c.id} pid={pid}/>)}
-                                </div>
-                            </div>
-                    </Row>
                     {currentUser == user && <Row>
-                        <Col className = {"col-12"}>
+                        <Col className = {"col-6"}>
                             <div className="d-flex justify-content-center">
                                 <Button className="postButton btn btn-default mb-2"onClick={() => {
                                     setShowAddComment(false)
                                     setShowUpdatePost(!showUpdatePost)
-                                }}>{showUpdatePost ? "Close Edit Post" : "Edit Post"}</Button>
+                                }}>{showUpdatePost ? "Close" : "Edit Post"}</Button>
+                            </div>
+                        </Col>
+                        <Col className = {"col-6"}>
+                            <div className="d-flex justify-content-center">
+                                <Button className="postButton btn btn-default mb-2" onClick={() => {
+                                    setShowUpdatePost(false);
+                                    setShowAddComment(!showAddComment)
+                                }}>{showAddComment ? "Close " : "Comment"}</Button>
                             </div>
                         </Col>
                     </Row>}
-                    <Row>
+                    {currentUser != user && <Row>
+                        <Col className = {"col-12"}>
+                            <div className="d-flex justify-content-center">
+                                <Button className="postButton btn btn-default mb-2" onClick={() => {
+                                    setShowUpdatePost(false);
+                                    setShowAddComment(!showAddComment)
+                                }}>{showAddComment ? "Close" : "Comment"}</Button>
+                            </div>
+                        </Col>
+                    </Row>}
+                    <Row className={"px-4"}>
                         {showUpdatePost &&<Form>
                             {showUpdatedPostAlert && <Alert variant={'warning'} dismissible onClose={() => setUpdatedPostAlert(false)}>
                                 Updated post is empty
                             </Alert>}
                             <Form.Group className="mb-3 whiteText" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Post</Form.Label>
+                                <Form.Label>Edit Post</Form.Label>
                                 <Form.Control onChange={(e)=> setUpdatedPostText(e.target.value)} as="textarea" rows={1} />
                             </Form.Group>
                             <Row>
@@ -114,23 +121,13 @@ function Post({user, date, img, text, comments, pid}) {
 
                         </Form>}
                     </Row>
-                    <Row>
-                        <Col className = {"col-12"}>
-                            <div className="d-flex justify-content-center">
-                                <Button className="postButton btn btn-default mb-2" onClick={() => {
-                                    setShowUpdatePost(false);
-                                    setShowAddComment(!showAddComment)
-                                }}>{showAddComment ? "Close Comment" : "Comment"}</Button>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row>
+                    <Row className={"px-4"}>
                         {showAddComment &&<Form>
                             {showCommentAlert && <Alert variant={'warning'} dismissible onClose={() => setShowCommentAlert(false)}>
                                 Comment is empty
                             </Alert>}
                             <Form.Group className="mb-3 whiteText" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Username</Form.Label>
+                                <Form.Label>Comment</Form.Label>
                                 <Form.Control onChange={(e)=> setNewCommentText(e.target.value)} as="textarea" rows={1} />
                             </Form.Group>
                             <Row>
@@ -144,6 +141,19 @@ function Post({user, date, img, text, comments, pid}) {
 
                         </Form>}
                     </Row>
+
+                {/*Place post text*/}
+                </Col>
+                <Col className={"col-4"}>
+                    <Row className={"mb-4"}>
+                            <div className={"commentBox"}>
+                                <h4 className={"commentTitle"}>Comments</h4>
+                                <div> 
+                                    {comments.map(c => <Comment key={c.id} user={c.author} body={c.text} id={c.id} pid={pid}/>)}
+                                </div>
+                            </div>
+                    </Row>
+
 
 
                     {/* Create comment box   */}

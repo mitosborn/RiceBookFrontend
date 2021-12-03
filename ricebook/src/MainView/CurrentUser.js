@@ -36,7 +36,7 @@ function CurrentUser() {
                     </div>
                 </Col>
             </Row>
-            <Row>
+            <Row className={"mb-2"}>
                 <Col className={"col-12"}>
                     <div className={"headlineTextContainer"}>
                         <h6 className={"userText"}>{currentHeadline ? currentHeadline: "No headline at the moment."}</h6>

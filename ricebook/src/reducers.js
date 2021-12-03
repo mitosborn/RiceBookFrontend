@@ -1,6 +1,6 @@
 import {
     SET_POSTS,
-    FOLLOW_USER, GET_COMMENTS,
+    FOLLOW_UPDATE, GET_COMMENTS,
     GET_POSTS,
     GET_USERS,
     LOGIN,
@@ -104,7 +104,7 @@ export function riceBookReducer(state = initialState, action) {
             })
 
             return {...state, users: allUsers, userLoginInfo: userLoginInfo}
-        case FOLLOW_USER: // This sets allPosts and calls queryPosts
+        case FOLLOW_UPDATE: // This sets allPosts and calls queryPosts
             console.log("FOLLOW_USER Called")
             // let JSONUsers = state.users.filter(user => user.username == action.user.trim())
             // console.log(JSONUsers)

@@ -5,11 +5,11 @@ import {
     getPosts,
     getUsers,
     setPosts,
-    followUser,
+    followUpdate,
     unfollowUser,
     queryPosts,
     getComments,
-    doFollowUser,
+    doFollowUpdate,
     doAddArticle
 } from "../actions";
 import {Col, Container, Row} from "react-bootstrap";
@@ -67,12 +67,12 @@ function MainView() {
     }
 
     const followFtn = (user) => {
-        dispatch(doFollowUser(user))
+        dispatch(doFollowUpdate(user, true))
         // dispatch(queryPosts(lastQuery));
     }
 
     const unfollowFtn = (user) => {
-        dispatch(unfollowUser(user))
+        dispatch(doFollowUpdate(user, false))
         // dispatch(queryPosts(lastQuery));
     }
 

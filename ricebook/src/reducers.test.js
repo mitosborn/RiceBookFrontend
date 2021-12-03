@@ -1,5 +1,5 @@
 import {riceBookReducer} from './reducers';
-import {followUser, getPosts, getUsers, login, logout, queryPosts, registerUser, unfollowUser} from "./actions";
+import {followUpdate, getPosts, getUsers, login, logout, queryPosts, registerUser, unfollowUser} from "./actions";
 import * as post_data from './TestData/posts.json';
 import * as user_data from './TestData/users.json';
 
@@ -102,7 +102,7 @@ test('should add articles when adding a follower (posts state is larger )', () =
     oldState = riceBookReducer(oldState, getPosts(Posts));
     oldState = riceBookReducer(oldState, login('Bret','Kulas Light'));
     let oldStateNum = oldState.posts.length;
-    let newState = riceBookReducer(oldState, followUser('Moriah.Stanton'));
+    let newState = riceBookReducer(oldState, followUpdate('Moriah.Stanton'));
     expect(newState.posts.length > oldStateNum);
 })
 

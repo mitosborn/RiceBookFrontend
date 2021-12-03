@@ -4,7 +4,7 @@
 export const GET_POSTS = "REQUEST_PLAYERS";
 export const SET_POSTS = "SET_POSTS";
 export const GET_USERS = "GET_USERS";
-export const FOLLOW_USER = "FOLLOW_USER";
+export const FOLLOW_UPDATE = "FOLLOW_UPDATE";
 export const UNFOLLOW_USER = "UNFOLLOW_USER";
 export const QUERY_POSTS = "QUERY_POSTS";
 export const LOGIN = "LOGIN";
@@ -33,8 +33,8 @@ export function getUsers(users) {
     return {type: GET_USERS, users}
 }
 
-export function followUser(newArticles, newFollowers, error) {
-    return {type: FOLLOW_USER, newArticles, newFollowers, error}
+export function followUpdate(newArticles, newFollowers, error) {
+    return {type: FOLLOW_UPDATE, newArticles, newFollowers, error}
 }
 
 export function unfollowUser(unfollowedUser) {
@@ -161,12 +161,13 @@ export function doLogout(redirect) {
 }
 
 
-export function doFollowUser(newFollowName) {
+export function doFollowUpdate(follower, followUser) {
+    let method = followUser ? 'PUT' : 'DELETE';
     return function (dispatch) {
         console.log("Within doLogout")
         return (async () => {
-            let status = await fetch(url('/following/' + newFollowName), {
-                method: 'PUT',
+            let status = await fetch(url('/following/' + follower), {
+                method: method,
                 headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
                 credentials: 'include'
             }).then(res => res.status)
@@ -192,8 +193,8 @@ export function doFollowUser(newFollowName) {
         })()
     .then(res => {
             console.log(res);
-            dispatch(followUser(res['newArticles'], res['newFollowers'], false))
-        }).catch(err => dispatch(followUser([], [], true)))
+            dispatch(followUpdate(res['newArticles'], res['newFollowers'], false))
+        }).catch(err => dispatch(followUpdate([], [], true)))
     }
 }
 
@@ -290,6 +291,7 @@ export function doUpdatePassword(password) {
         console.log(res);
     })
 }
+
 
 // Populate articles
 // Followed users
