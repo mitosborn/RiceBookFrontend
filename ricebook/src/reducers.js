@@ -116,16 +116,16 @@ export function riceBookReducer(state = initialState, action) {
         case QUERY_POSTS:
             console.log("QUERY_POSTS Called")
             let queried_posts = state.allPosts;
-            // try {
-            //     if(action.query){
-            //         queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId) && (user.body.includes(action.query) || user.name.includes(action.query)))
-            //     }
-            //     else {
-            //         queried_posts = state.allPosts.filter(user =>  [state.currentUser["id"],...state.followedUsers.map(followed => followed.id)].includes(user.userId))
-            //     }
-            // }catch(e){
-            //     return state
-            // }
+            try {
+                if(action.query){
+                    queried_posts = state.allPosts.filter(user => (user.text.includes(action.query) || user.author.includes(action.query)))
+                }
+                else {
+                    queried_posts = state.allPosts
+                }
+            }catch(e){
+                return state
+            }
             return {...state, posts: queried_posts, lastQuery:action.query}
         // case SET_POSTS:
         //     return {...state, posts: action.posts}
