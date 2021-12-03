@@ -2,6 +2,7 @@ import '../stylesheets/Post.css'
 import {Alert, Button, Col, Form, Image, Row} from "react-bootstrap";
 import Comment from "./Comment";
 import {useState} from "react";
+import {useSelector} from "react-redux";
 
 /*
 const comments = [{"name":"Jeff", "body":"This is so cool!"},{"name":"Gordon", "body":"I gotta go here sometime. Where is this?"},{"name":"Rudy", "body":"Interesting!"},{"name":"Anne", "body":"Very pretty photo! I need to visit here."}, {"name":"Bri", "body":"Placeholder commment."}]
@@ -16,10 +17,23 @@ function Post({user, date, img, text, comments, pid}) {
     const [showUpdatePost, setShowUpdatePost] = useState(false);
     const [updatedPostText, setUpdatedPostText] = useState("");
     const [showUpdatedPostAlert, setUpdatedPostAlert] = useState(false);
+//currentUser
+    let currentUser = useSelector((state) => state.currentUser.username)
 
-    if(!date){
-        date = new Date();
+    const addComment = () => {
+        console.log("Comment posted!")
+
     }
+
+    const updatePost = () => {
+        console.log("Post updated!");
+    }
+
+
+
+    // if(!date){
+    //     date = new Date();
+    // }
     return (
         <div className={"postDiv"}>
             <Row>
@@ -30,7 +44,7 @@ function Post({user, date, img, text, comments, pid}) {
                 </Col>
                 <Col className={"col-6 postHeader"}>
                     <div className={"postHeaderDate"}>
-                        <h4>{date.toLocaleString()}</h4>
+                        <h4>{new Date(date).toLocaleString()}</h4>
                     </div>
                 </Col>
             </Row>
@@ -57,13 +71,16 @@ function Post({user, date, img, text, comments, pid}) {
                                 </div>
                             </div>
                     </Row>
-                    <Row>
+                    {currentUser == user && <Row>
                         <Col className = {"col-12"}>
                             <div className="d-flex justify-content-center">
-                                <Button className="postButton btn btn-default mb-2"onClick={() => setShowUpdatePost(!showUpdatePost)}>{showUpdatePost ? "Close" : "Edit Post"}</Button>
+                                <Button className="postButton btn btn-default mb-2"onClick={() => {
+                                    setShowAddComment(false)
+                                    setShowUpdatePost(!showUpdatePost)
+                                }}>{showUpdatePost ? "Close" : "Edit Post"}</Button>
                             </div>
                         </Col>
-                    </Row>
+                    </Row>}
                     <Row>
                         {showUpdatePost &&<Form>
                             {showUpdatedPostAlert && <Alert variant={'warning'} dismissible onClose={() => setUpdatedPostAlert(false)}>
@@ -77,7 +94,7 @@ function Post({user, date, img, text, comments, pid}) {
                                 <Col className = {"col-12"}>
                                     <div className="d-flex justify-content-center">
                                         <Button type="reset" className="addPostBtn btn btn-default mb-2">Clear Text</Button>
-                                        <Button onClick={() => console.log("Update post!!")}className="addPostBtn btn btn-default mb-2">Update Post</Button>
+                                        <Button onClick={() => updatePost()} className="addPostBtn btn btn-default mb-2">Update Post</Button>
                                     </div>
                                 </Col>
                             </Row>
@@ -87,7 +104,10 @@ function Post({user, date, img, text, comments, pid}) {
                     <Row>
                         <Col className = {"col-12"}>
                             <div className="d-flex justify-content-center">
-                                <Button className="postButton btn btn-default mb-2" onClick={() => setShowAddComment(!showAddComment)}>{showAddComment ? "Close" : "Comment"}</Button>
+                                <Button className="postButton btn btn-default mb-2" onClick={() => {
+                                    setShowUpdatePost(false);
+                                    setShowAddComment(!showAddComment)
+                                }}>{showAddComment ? "Close" : "Comment"}</Button>
                             </div>
                         </Col>
                     </Row>
@@ -104,7 +124,7 @@ function Post({user, date, img, text, comments, pid}) {
                                 <Col className = {"col-12"}>
                                     <div className="d-flex justify-content-center">
                                         <Button type="reset" className="addPostBtn btn btn-default mb-2">Clear Text</Button>
-                                        <Button onClick={() => console.log("Send comment!")}className="addPostBtn btn btn-default mb-2">Post</Button>
+                                        <Button onClick={() => addComment()} className="addPostBtn btn btn-default mb-2">Post</Button>
                                     </div>
                                 </Col>
                             </Row>
