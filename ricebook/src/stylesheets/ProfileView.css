@@ -3,7 +3,9 @@
 }
 
 .profileImage {
-    max-height: 100px;
+    max-width: 175px;
+    max-height: 175px;
+    aspect-ratio: 1/1;
 }
 
 #backButton {
@@ -20,4 +22,8 @@
 
 #header {
     background-color:antiquewhite;
+}
+
+.disabled {
+    visibility: hidden;
 }

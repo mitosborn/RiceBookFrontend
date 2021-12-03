@@ -42,7 +42,7 @@ function Comment({user, body, id, pid}) {
                     <div className="d-flex justify-content-center">
                         <Button className="postButton btn btn-default mb-2"onClick={() => {
                             setShowUpdatePost(!showUpdatePost)
-                        }}>{showUpdatePost ? "Close" : "Edit Comment"}</Button>
+                        }}>{showUpdatePost ? "Close" : "Edit"}</Button>
                     </div>
                 </Col>
             </Row>}

@@ -11,6 +11,11 @@ export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const REGISTER_USER = "REGISTER_USER";
 export const UPDATE_HEADLINE = "UPDATE_HEADLINE";
+export const UPDATE_AVATAR = "UPDATE_AVATAR";
+export const UPDATE_ZIPCODE = "UPDATE_ZIPCODE";
+export const UPDATE_EMAIL = "UPDATE_EMAIL";
+
+
 // export const GET_COMMENTS = "GET_COMMENTS"
 
 /*
@@ -56,6 +61,17 @@ export function updateHeadline(headline) {
     return {type: UPDATE_HEADLINE, headline}
 }
 
+export function updateAvatar(avatar) {
+    return {type: UPDATE_AVATAR, avatar}
+}
+
+export function updateZipcode(zipcode) {
+    return {type: UPDATE_ZIPCODE, zipcode}
+}
+
+export function updateEmail(email) {
+    return {type: UPDATE_EMAIL, email}
+}
 
 export function url(path) {
     // return `http://localhost:3000${path}`
@@ -211,6 +227,70 @@ export function doUpdatePost(updatedPostText, pid, commentId = "") {
         })
     }
 }
+
+
+export function doUpdateAvatar(img) {
+    return function (dispatch) {
+        console.log("Within doUpdateAvatar");
+        const formData = new FormData()
+        console.log(formData);
+        formData.append('image', img);
+        return fetch(url('/avatar'), {
+            method: 'PUT',
+            credentials: 'include',
+            body: formData
+        }).then(res => res.json()).then(res => {
+            console.log(res);
+            dispatch(updateAvatar(res['avatar']));
+        })
+    }
+}
+
+
+
+export function doUpdateZipcode(zipcode) {
+    return function (dispatch) {
+        console.log("Within doUpdateZipcode");
+        return fetch(url('/zipcode'), {
+            method: 'PUT',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({"zipcode": zipcode})
+        }).then(res => res.json()).then(res => {
+            console.log(res);
+            dispatch(updateZipcode(res['zipcode']));
+        })
+    }
+}
+
+export function doUpdateEmail(email) {
+    return function (dispatch) {
+        console.log("Within doUpdateEmail");
+        return fetch(url('/email'), {
+            method: 'PUT',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({"email": email})
+        }).then(res => res.json()).then(res => {
+            console.log(res);
+            dispatch(updateEmail(res['email']));
+        })
+    }
+}
+
+
+export function doUpdatePassword(password) {
+    console.log("Within doUpdatePassword");
+    fetch(url('/password'), {
+        method: 'PUT',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({"password": password})
+    }).then(res => res.json()).then(res => {
+        console.log(res);
+    })
+}
+
 // Populate articles
 // Followed users
     // Unfollow (DELETE) -> call articles again

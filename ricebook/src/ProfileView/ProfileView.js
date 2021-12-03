@@ -3,7 +3,8 @@ import {useState} from "react";
 import "../stylesheets/ProfileView.css"
 import logo from "../img/logo192.png"
 import {useHistory} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {doUpdateAvatar, doUpdateEmail, doUpdatePassword, doUpdateZipcode} from "../actions";
 
 // React form validation based on https://dev.to/alecgrey/controlled-forms-with-front-and-backend-validations-using-react-bootstrap-5a2
 function ProfileView() {
@@ -17,8 +18,11 @@ function ProfileView() {
     const [validated, setValidated] = useState(false);
     const [ form, setForm ] = useState({});
     const [ errors, setErrors ] = useState({});
-    const [currentValues, setCurrentValues] = useState({accountName:userInformation.username, email:userInformation.email, zipCode:userInformation.address.zipcode, password:userInformation.address.street, passwordValidation:userInformation.address.street, phone:userInformation.phone});
+    const [currentValues, setCurrentValues] = useState({accountName:userInformation.username, email:userInformation.email, zipCode:userInformation.zipcode, password:"randomPassword", passwordValidation:"randomPassword", picture: userInformation.picture}); //phone:userInformation.phone
+    const [img, setImg] = useState('');
+    const dispatch = useDispatch();
 
+    console.log(currentValues);
     const setField = (field, value) => {
         setForm({
             ...form,
@@ -51,6 +55,19 @@ function ProfileView() {
 
     const updateCurrentForm = (form) => {
         let new_values = Object.fromEntries(Object.entries(form).filter(([_, v]) => v != null && v != ''))
+        console.log(new_values);
+        if (img) {
+            dispatch(doUpdateAvatar(img));
+        }
+        if (new_values['email']) {
+            dispatch(doUpdateEmail(new_values['email']));
+        }
+        if (new_values['zipCode']) {
+            dispatch(doUpdateZipcode(new_values['zipCode']));
+        }
+        if (new_values['password']) {
+            doUpdatePassword(new_values['password'])
+        }
         setCurrentValues({...currentValues, ...new_values});
     }
 
@@ -93,25 +110,25 @@ function ProfileView() {
                 <h2>Current Value</h2>
             </Col>
         </Row>
-        <Row className="m-4">
-            <Form.Group as={Col} className={"col-6"} controlId="validationCustom01">
-                <Form.Label>Account name</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Account name"
-                    pattern="^[a-zA-Z]{1}[A-Za-z0-9]*"
-                    onChange={e => setField('accountName', e.target.value)}
-                    value = {form["accountName"] || ""}
-                />
-                <Form.Control.Feedback type="invalid">
-                    Account name must start with a letter and consist only of letters and numbers.
-                </Form.Control.Feedback>
-            </Form.Group>
-            <Col className="col-6 text mt-2">
-                <Form.Label></Form.Label>
-                <h3>{currentValues["accountName"]}</h3>
-            </Col>
-        </Row>
+        {/*<Row className="m-4">*/}
+        {/*    <Form.Group as={Col} className={"col-6"} controlId="validationCustom01">*/}
+        {/*        <Form.Label>Account name</Form.Label>*/}
+        {/*        <Form.Control*/}
+        {/*            type="text"*/}
+        {/*            placeholder="Account name"*/}
+        {/*            pattern="^[a-zA-Z]{1}[A-Za-z0-9]*"*/}
+        {/*            onChange={e => setField('accountName', e.target.value)}*/}
+        {/*            value = {form["accountName"] || ""}*/}
+        {/*        />*/}
+        {/*        <Form.Control.Feedback type="invalid">*/}
+        {/*            Account name must start with a letter and consist only of letters and numbers.*/}
+        {/*        </Form.Control.Feedback>*/}
+        {/*    </Form.Group>*/}
+        {/*    <Col className="col-6 text mt-2">*/}
+        {/*        <Form.Label></Form.Label>*/}
+        {/*        <h3>{currentValues["accountName"]}</h3>*/}
+        {/*    </Col>*/}
+        {/*</Row>*/}
         <Row className="m-4">
             <Form.Group className={"col-6"} controlId="validationCustom03">
                 <Form.Label>Email Address</Form.Label>
@@ -149,25 +166,25 @@ function ProfileView() {
                 <h3>{currentValues["zipCode"]}</h3>
             </Col>
         </Row>
-        <Row className="m-4">
-            <Form.Group as={Col} className={"col-6"} controlId="validationCustom04">
-                <Form.Label>Phone Number</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="555-555-5555"
-                    pattern="[0-9]{3}-?[0-9]{3}-?[0-9]{4}"
-                    onChange={e => setField('phone', e.target.value)}
-                    // value = {form["phone"] || ""}
-                />
-                <Form.Control.Feedback type="invalid">
-                    Phone number should be format of 555-555-5555.
-                </Form.Control.Feedback>
-            </Form.Group>
-            <Col className="text mt-2 col-6">
-                <Form.Label></Form.Label>
-                <h3>{currentValues["phone"]}</h3>
-            </Col>
-        </Row>
+        {/*<Row className="m-4">*/}
+        {/*    <Form.Group as={Col} className={"col-6"} controlId="validationCustom04">*/}
+        {/*        <Form.Label>Phone Number</Form.Label>*/}
+        {/*        <Form.Control*/}
+        {/*            type="text"*/}
+        {/*            placeholder="555-555-5555"*/}
+        {/*            pattern="[0-9]{3}-?[0-9]{3}-?[0-9]{4}"*/}
+        {/*            onChange={e => setField('phone', e.target.value)}*/}
+        {/*            // value = {form["phone"] || ""}*/}
+        {/*        />*/}
+        {/*        <Form.Control.Feedback type="invalid">*/}
+        {/*            Phone number should be format of 555-555-5555.*/}
+        {/*        </Form.Control.Feedback>*/}
+        {/*    </Form.Group>*/}
+        {/*    <Col className="text mt-2 col-6">*/}
+        {/*        <Form.Label></Form.Label>*/}
+        {/*        <h3>{currentValues["phone"]}</h3>*/}
+        {/*    </Col>*/}
+        {/*</Row>*/}
         <Row className="m-4 ">
             <Form.Group as={Col} className={"col-6"} controlId="validationCustom05">
                 <Form.Label>Password</Form.Label>
@@ -205,12 +222,12 @@ function ProfileView() {
             <Form.Group as={Col} className={"col-6"} controlId="validationCustom07">
                 <Form.Label>Profile Photo</Form.Label><br/>
                 <Form.Control
-                    type="file"
+                    type="file" name="image" size="sm" onChange={(e) => setImg(e.target.files[0])}
                 />
             </Form.Group>
             <Col className="text mt-2 col-6">
                 <Form.Label></Form.Label>
-                <Image className="profileImage" src={logo} fluid/>
+                <Image className="profileImage" src={userInformation.picture} fluid/>
             </Col>
         </Row>
 

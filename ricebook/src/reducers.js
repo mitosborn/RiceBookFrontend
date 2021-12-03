@@ -8,7 +8,7 @@ import {
     QUERY_POSTS, queryPosts,
     REGISTER_USER,
     UNFOLLOW_USER,
-    UPDATE_HEADLINE
+    UPDATE_HEADLINE, UPDATE_AVATAR, UPDATE_ZIPCODE, UPDATE_EMAIL
 } from "./actions";
 
 //There should initially be 10 registered users
@@ -45,6 +45,15 @@ export function riceBookReducer(state = initialState, action) {
         // update state with requested players from the dummy server
         case SET_POSTS:
             return riceBookReducer({...state, allPosts: action.posts}, queryPosts(state.lastQuery));
+            break;
+        case UPDATE_AVATAR:
+            return {...state, currentUser: {...state.currentUser, picture: action.avatar}};
+            break;
+        case UPDATE_ZIPCODE:
+            return {...state, currentUser: {...state.currentUser, zipcode: action.zipcode}};
+            break;
+        case UPDATE_EMAIL:
+            return {...state, currentUser: {...state.currentUser, email: action.email}};
             break;
         case GET_POSTS:
             console.log("GET_POSTS Called")
@@ -127,10 +136,6 @@ export function riceBookReducer(state = initialState, action) {
                 return state
             }
             return {...state, posts: queried_posts, lastQuery:action.query}
-        // case SET_POSTS:
-        //     return {...state, posts: action.posts}
-
-
         case LOGIN:
             console.log("LOGIN Called")
             console.log(action.newUserArticles);
