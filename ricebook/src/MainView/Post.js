@@ -9,7 +9,7 @@ const comments = [{"name":"Jeff", "body":"This is so cool!"},{"name":"Gordon", "
 */
 
 function Post({user, date, img, text, comments, pid}) {
-    const defaultImg = "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg";
+    // const defaultImg = "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg";
     const [showAddComment, setShowAddComment] = useState(false);
     const [newCommentText, setNewCommentText] = useState("");
     const [showCommentAlert, setShowCommentAlert] = useState(false);
@@ -22,11 +22,17 @@ function Post({user, date, img, text, comments, pid}) {
 
     const addComment = () => {
         console.log("Comment posted!")
+        if (!newCommentText) {
+            setShowCommentAlert(true);
+        }
 
     }
 
     const updatePost = () => {
         console.log("Post updated!");
+        if (!updatedPostText) {
+            setUpdatedPostAlert(true);
+        }
     }
 
 
@@ -77,14 +83,14 @@ function Post({user, date, img, text, comments, pid}) {
                                 <Button className="postButton btn btn-default mb-2"onClick={() => {
                                     setShowAddComment(false)
                                     setShowUpdatePost(!showUpdatePost)
-                                }}>{showUpdatePost ? "Close" : "Edit Post"}</Button>
+                                }}>{showUpdatePost ? "Close Edit Post" : "Edit Post"}</Button>
                             </div>
                         </Col>
                     </Row>}
                     <Row>
                         {showUpdatePost &&<Form>
                             {showUpdatedPostAlert && <Alert variant={'warning'} dismissible onClose={() => setUpdatedPostAlert(false)}>
-                                Comment is empty
+                                Updated post is empty
                             </Alert>}
                             <Form.Group className="mb-3 whiteText" controlId="exampleForm.ControlTextarea1">
                                 <Form.Label>Post</Form.Label>
@@ -93,8 +99,8 @@ function Post({user, date, img, text, comments, pid}) {
                             <Row>
                                 <Col className = {"col-12"}>
                                     <div className="d-flex justify-content-center">
-                                        <Button type="reset" className="addPostBtn btn btn-default mb-2">Clear Text</Button>
-                                        <Button onClick={() => updatePost()} className="addPostBtn btn btn-default mb-2">Update Post</Button>
+                                        <Button type="reset" className="addPostBtn btn btn-default mb-2">Clear</Button>
+                                        <Button onClick={() => updatePost()} className="addPostBtn btn btn-default mb-2">Save</Button>
                                     </div>
                                 </Col>
                             </Row>
@@ -107,7 +113,7 @@ function Post({user, date, img, text, comments, pid}) {
                                 <Button className="postButton btn btn-default mb-2" onClick={() => {
                                     setShowUpdatePost(false);
                                     setShowAddComment(!showAddComment)
-                                }}>{showAddComment ? "Close" : "Comment"}</Button>
+                                }}>{showAddComment ? "Close Comment" : "Comment"}</Button>
                             </div>
                         </Col>
                     </Row>
@@ -123,7 +129,7 @@ function Post({user, date, img, text, comments, pid}) {
                             <Row>
                                 <Col className = {"col-12"}>
                                     <div className="d-flex justify-content-center">
-                                        <Button type="reset" className="addPostBtn btn btn-default mb-2">Clear Text</Button>
+                                        <Button type="reset" className="addPostBtn btn btn-default mb-2">Clear</Button>
                                         <Button onClick={() => addComment()} className="addPostBtn btn btn-default mb-2">Post</Button>
                                     </div>
                                 </Col>
