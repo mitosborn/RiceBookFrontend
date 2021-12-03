@@ -31,7 +31,8 @@
     margin-right: 10px;
     text-align: center;
     height: 100%;
-    max-height: 200px;
+    min-height: 200px;
+    max-height: 300px;
     width: 95%;
     hyphens: auto;
     overflow-y: scroll;
@@ -51,6 +52,11 @@
 .postHeader {
     background-color: gray;
     margin-bottom: 5px;
+}
+
+.commentUpdateBox {
+    background-color: white;
+    color: black;
 }
 
 .postHeaderUser {

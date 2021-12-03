@@ -1,13 +1,14 @@
 import '../stylesheets/Post.css'
 import {Alert, Button, Col, Form, Row} from "react-bootstrap";
 import {useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {doUpdatePost} from "../actions";
 
 function Comment({user, body, id, pid}) {
     const [showUpdatePost, setShowUpdatePost] = useState(false);
     const [updatedPostText, setUpdatedPostText] = useState("");
     const [showUpdatedPostAlert, setUpdatedPostAlert] = useState(false);
-//currentUser
+    const dispatch = useDispatch();
     let currentUser = useSelector((state) => state.currentUser.username)
 
     const updateComment = () => {
@@ -15,7 +16,9 @@ function Comment({user, body, id, pid}) {
         if (!updatedPostText) {
             setUpdatedPostAlert(true);
         }
-        // dispatch(updateComment(pid, id, updatedPostText))
+        else {
+            dispatch(doUpdatePost(updatedPostText, pid, id));
+        }
     }
 
 
@@ -44,12 +47,12 @@ function Comment({user, body, id, pid}) {
                 </Col>
             </Row>}
             <Row>
-                {showUpdatePost &&<Form>
+                {showUpdatePost &&<Form className={"commentUpdateBox"}>
                     {showUpdatedPostAlert && <Alert variant={'warning'} dismissible onClose={() => setUpdatedPostAlert(false)}>
                         Comment is empty
                     </Alert>}
                     <Form.Group className="mb-3 whiteText" controlId="exampleForm.ControlTextarea1">
-                        <Form.Label>Post</Form.Label>
+                        <Form.Label className={"commentUpdateBox"}>Edit Comment</Form.Label>
                         <Form.Control onChange={(e)=> setUpdatedPostText(e.target.value)} as="textarea" rows={1} />
                     </Form.Group>
                     <Row>

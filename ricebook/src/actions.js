@@ -196,14 +196,15 @@ export function doAddArticle(article) {
     }
 }
 
-export function doUpdatePost(updatedPostText, pid) {
+export function doUpdatePost(updatedPostText, pid, commentId = "") {
     return function (dispatch) {
         console.log("Within doUpdatePost");
+        console.log(pid, commentId);
         return fetch(url('/articles/'+ pid), {
             method: 'PUT',
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
             credentials: 'include',
-            body: JSON.stringify({"text": updatedPostText})
+            body: JSON.stringify(commentId ? {"text": updatedPostText, commentId}: {"text": updatedPostText})
         }).then(res => res.json()).then(res => {
             console.log(res);
             dispatch(setPosts(res['articles']));

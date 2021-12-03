@@ -27,6 +27,9 @@ function Post({user, date, img, text, comments, pid}) {
             setShowCommentAlert(true);
         }
 
+        dispatch(doUpdatePost(newCommentText, pid, -1));
+
+
     }
 
     const updatePost = () => {
