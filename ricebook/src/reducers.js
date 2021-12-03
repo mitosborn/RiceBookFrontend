@@ -1,5 +1,5 @@
 import {
-    ADD_POST,
+    SET_POSTS,
     FOLLOW_USER, GET_COMMENTS,
     GET_POSTS,
     GET_USERS,
@@ -43,7 +43,7 @@ function randomDate(start, end, startHour, endHour) {
 export function riceBookReducer(state = initialState, action) {
     switch (action.type) {
         // update state with requested players from the dummy server
-        case ADD_POST:
+        case SET_POSTS:
             return riceBookReducer({...state, allPosts: action.posts}, queryPosts(state.lastQuery));
             break;
         case GET_POSTS:

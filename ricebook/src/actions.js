@@ -2,7 +2,7 @@
  * action types
  */
 export const GET_POSTS = "REQUEST_PLAYERS";
-export const ADD_POST = "ADD_POST";
+export const SET_POSTS = "SET_POSTS";
 export const GET_USERS = "GET_USERS";
 export const FOLLOW_USER = "FOLLOW_USER";
 export const UNFOLLOW_USER = "UNFOLLOW_USER";
@@ -16,8 +16,8 @@ export const UPDATE_HEADLINE = "UPDATE_HEADLINE";
 /*
  * action creator
  */
-export function addPost(posts) {
-    return {type: ADD_POST, posts}
+export function setPosts(posts) {
+    return {type: SET_POSTS, posts}
 }
 
 export function getPosts(posts) {
@@ -191,12 +191,25 @@ export function doAddArticle(article) {
             body: JSON.stringify(article)
         }).then(res => res.json()).then(res => {
             console.log(res);
-            dispatch(addPost(res['articles']));
+            dispatch(setPosts(res['articles']));
         })
     }
 }
 
-
+export function doUpdatePost(updatedPostText, pid) {
+    return function (dispatch) {
+        console.log("Within doUpdatePost");
+        return fetch(url('/articles/'+ pid), {
+            method: 'PUT',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({"text": updatedPostText})
+        }).then(res => res.json()).then(res => {
+            console.log(res);
+            dispatch(setPosts(res['articles']));
+        })
+    }
+}
 // Populate articles
 // Followed users
     // Unfollow (DELETE) -> call articles again

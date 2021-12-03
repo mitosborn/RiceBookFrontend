@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     getPosts,
     getUsers,
-    addPost,
+    setPosts,
     followUser,
     unfollowUser,
     queryPosts,

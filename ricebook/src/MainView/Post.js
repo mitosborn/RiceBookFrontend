@@ -2,7 +2,8 @@ import '../stylesheets/Post.css'
 import {Alert, Button, Col, Form, Image, Row} from "react-bootstrap";
 import Comment from "./Comment";
 import {useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {doUpdatePost} from "../actions";
 
 /*
 const comments = [{"name":"Jeff", "body":"This is so cool!"},{"name":"Gordon", "body":"I gotta go here sometime. Where is this?"},{"name":"Rudy", "body":"Interesting!"},{"name":"Anne", "body":"Very pretty photo! I need to visit here."}, {"name":"Bri", "body":"Placeholder commment."}]
@@ -17,7 +18,7 @@ function Post({user, date, img, text, comments, pid}) {
     const [showUpdatePost, setShowUpdatePost] = useState(false);
     const [updatedPostText, setUpdatedPostText] = useState("");
     const [showUpdatedPostAlert, setUpdatedPostAlert] = useState(false);
-//currentUser
+    const dispatch = useDispatch();
     let currentUser = useSelector((state) => state.currentUser.username)
 
     const addComment = () => {
@@ -32,6 +33,9 @@ function Post({user, date, img, text, comments, pid}) {
         console.log("Post updated!");
         if (!updatedPostText) {
             setUpdatedPostAlert(true);
+        }
+        else {
+            dispatch(doUpdatePost(updatedPostText, pid));
         }
     }
 
