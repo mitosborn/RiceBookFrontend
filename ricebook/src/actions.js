@@ -113,20 +113,17 @@ async function fetchLogin(username, password) {
 
 export function doLogin(username, password, redirect) {
     return function (dispatch) {
-        console.log("Within doLogin")
         return fetchLogin(username, password).then(res => {
-            console.log(res);
             if (res.status == 200){
                 dispatch(login(res['username'], res['password'], res['following'], res['username'], res['articles'], res['loggedInProfile']))
             }
             redirect(res.status) // Redirect on 200, error otherwise
-        })
+        }).catch(() => redirect(-1))
     }
 }
 
 export function doHeadlineUpdate(newHeadline) {
     return function (dispatch) {
-        console.log("Within doHeadlineUpdate")
         return fetch(url('/headline'), {
                 method: 'PUT',
                 headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
@@ -134,7 +131,6 @@ export function doHeadlineUpdate(newHeadline) {
                 credentials: 'include'
             }).then(res => res.status)
         .then(status => {
-            console.log(status);
             if (status == 200){
                 dispatch(updateHeadline(newHeadline))
             }
@@ -293,6 +289,18 @@ export function doUpdatePassword(password) {
 }
 
 
+export function doRegister(username, email, zipcode, password, dob) {
+    console.log("Within doRegister");
+    let request = {username, email, zipcode, password, dob}
+    console.log(request)
+    return fetch(url('/register'), {
+        method: 'POST',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify(request)
+    })
+
+}
 // Populate articles
 // Followed users
     // Unfollow (DELETE) -> call articles again

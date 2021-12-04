@@ -10,7 +10,7 @@ import {
     queryPosts,
     getComments,
     doFollowUpdate,
-    doAddArticle
+    doAddArticle, doLogin
 } from "../actions";
 import {Col, Container, Row} from "react-bootstrap";
 import "../stylesheets/MainView.css";
@@ -31,29 +31,33 @@ function MainView() {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const googleLogin = () => {
+        dispatch(doLogin("somerandomuser23", "password", (status) => {
+            if (status != 200) {
+                history.push({"pathname": "/login"})
+            }
+        }));
+    }
 
-    useMemo(() => {
-        if(!loggedIn) {
-            history.push({"pathname":"/login"})
-        }
-        else {
-            fetch("https://jsonplaceholder.typicode.com/users").then(res => res.json()).then(res => {
-                dispatch(getUsers(res));
-                // fetch("https://jsonplaceholder.typicode.com/posts").then(res => res.json()).then(res => {
-                //     console.log(res)
-                //     dispatch(getPosts(res));
-                // }, []);
-            }, []);
-            // Used for future assignment where comments are not hardcoded
-            // fetch("https://jsonplaceholder.typicode.com/comments").then(res => res.json()).then(res => {
-            //     console.log(res)
-            //     dispatch(getComments(res));
-            // }, []);
+    useMemo(async () => {
+        if (!loggedIn) {
+            googleLogin();
         }
 
-
-
-
+        // else {
+        //     fetch("https://jsonplaceholder.typicode.com/users").then(res => res.json()).then(res => {
+        //         dispatch(getUsers(res));
+        //         // fetch("https://jsonplaceholder.typicode.com/posts").then(res => res.json()).then(res => {
+        //         //     console.log(res)
+        //         //     dispatch(getPosts(res));
+        //         // }, []);
+        //     }, []);
+        //     // Used for future assignment where comments are not hardcoded
+        //     // fetch("https://jsonplaceholder.typicode.com/comments").then(res => res.json()).then(res => {
+        //     //     console.log(res)
+        //     //     dispatch(getComments(res));
+        //     // }, []);
+        // }
 
 
     },[])

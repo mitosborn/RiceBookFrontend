@@ -149,7 +149,7 @@ function Post({user, date, img, text, comments, pid}) {
                             <div className={"commentBox"}>
                                 <h4 className={"commentTitle"}>Comments</h4>
                                 <div> 
-                                    {comments.map(c => <Comment key={c.id} user={c.author} body={c.text} id={c.id} pid={pid}/>)}
+                                    {comments.map(c => <Comment key={c.id + Math.floor(20000*Math.random())} user={c.author} body={c.text} id={c.id} pid={pid}/>)}
                                 </div>
                             </div>
                     </Row>

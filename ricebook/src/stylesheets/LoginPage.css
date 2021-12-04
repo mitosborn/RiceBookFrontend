@@ -19,3 +19,16 @@
     height:100vh;
     background-color: antiquewhite;
 }
+
+
+.googleBtn {
+    text-transform : none;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.googleImage {
+    width: 20px;
+    margin-right: 5px;
+    margin-bottom: 3px;
+
+}

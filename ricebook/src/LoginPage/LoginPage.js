@@ -2,7 +2,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import Register from "./Register";
 import Login from "./Login";
 import "../stylesheets/LoginPage.css"
-import {doLogin, fetchLogin, getUsers, login, registerUser, url} from "../actions";
+import {doLogin, doRegister, fetchLogin, getUsers, login, registerUser, url} from "../actions";
 import {useDispatch} from "react-redux";
 import {useMemo} from "react";
 
@@ -71,8 +71,8 @@ function LoginPage(){
                         <h1 className="text">Create Account</h1>
                     </Row>
                     <Row>
-                        <Register registerFtn={(userName)=> {
-                            dispatch(registerUser(userName))
+                        <Register registerFtn={(username, email, zipcode, password, dob)=> {
+                            return doRegister(username, email, zipcode, password, dob)
                         }}/>
                     </Row>
                 </Col>
