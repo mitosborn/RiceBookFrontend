@@ -1,7 +1,7 @@
 import '../stylesheets/PostContainer.css'
 import Post from "./Post";
 function PostContainer({props}) {
-    console.log(props);
+
     let posts;
     if(props && props.length != 0){
          posts = props.map(({_id, pid, author, date, image, text, comments}) => {

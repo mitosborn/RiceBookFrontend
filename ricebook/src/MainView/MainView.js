@@ -48,13 +48,13 @@ function MainView() {
         //     fetch("https://jsonplaceholder.typicode.com/users").then(res => res.json()).then(res => {
         //         dispatch(getUsers(res));
         //         // fetch("https://jsonplaceholder.typicode.com/posts").then(res => res.json()).then(res => {
-        //         //     console.log(res)
+        //         //
         //         //     dispatch(getPosts(res));
         //         // }, []);
         //     }, []);
         //     // Used for future assignment where comments are not hardcoded
         //     // fetch("https://jsonplaceholder.typicode.com/comments").then(res => res.json()).then(res => {
-        //     //     console.log(res)
+        //     //
         //     //     dispatch(getComments(res));
         //     // }, []);
         // }

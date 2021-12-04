@@ -17,8 +17,8 @@ function CurrentUser() {
 
 
     const logoutApp = () => {
-        dispatch(doLogout(() => console.log("Successful logout"
-        )))
+        dispatch(doLogout(() => "Successful logout"
+        ))
         history.push({pathname:"/login"})
     }
 

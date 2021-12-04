@@ -22,7 +22,7 @@ function Post({user, date, img, text, comments, pid}) {
     let currentUser = useSelector((state) => state.currentUser.username)
 
     const addComment = () => {
-        console.log("Comment posted!")
+
         if (!newCommentText) {
             setShowCommentAlert(true);
         }
@@ -33,7 +33,7 @@ function Post({user, date, img, text, comments, pid}) {
     }
 
     const updatePost = () => {
-        console.log("Post updated!");
+
         if (!updatedPostText) {
             setUpdatedPostAlert(true);
         }

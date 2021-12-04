@@ -4,7 +4,7 @@ import {Alert, Button, Col, Form, Row} from "react-bootstrap";
 import {useState} from "react";
 import {doAddArticle, url} from "../actions";
 function AddPost({user, defaultImg, addPost}) {
-    console.log(defaultImg);
+
     const [showPost, setShowPost] = useState(false);
     const [newPostText, setNewPostText] = useState("");
     const [includeImg, setIncludeImg] = useState(true);
@@ -12,13 +12,13 @@ function AddPost({user, defaultImg, addPost}) {
     const [showAlert, setShowAlert] = useState(false);
 
     const createPost = async () => {
-        console.log(includeImg);
+
         let generatedImageURL;
         if (includeImg) {
             if (img) {
                 // upload image: create FormData, add image, post to /img
                 const formData = new FormData()
-                console.log(formData);
+
                 formData.append('image', img);
                 generatedImageURL = await fetch(url('/image'), {
                     method: 'POST',
@@ -26,7 +26,7 @@ function AddPost({user, defaultImg, addPost}) {
                     credentials: 'include',
                     body: formData
                 }).then(res => res.json()).then(res => res['url'])
-                console.log(generatedImageURL)
+
             } else {
                 setShowAlert(true);
                 return;

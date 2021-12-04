@@ -12,7 +12,7 @@ function Comment({user, body, id, pid}) {
     let currentUser = useSelector((state) => state.currentUser.username)
 
     const updateComment = () => {
-        console.log("Comment updated!");
+
         if (!updatedPostText) {
             setUpdatedPostAlert(true);
         }

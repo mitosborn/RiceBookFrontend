@@ -14,7 +14,7 @@ function ProfileView() {
         history.push({"pathname":"/login"})
     }
     const userInformation = useSelector((state)=> state.currentUser);
-    console.log(userInformation);
+
     const [validated, setValidated] = useState(false);
     const [ form, setForm ] = useState({});
     const [ errors, setErrors ] = useState({});
@@ -22,7 +22,7 @@ function ProfileView() {
     const [img, setImg] = useState('');
     const dispatch = useDispatch();
 
-    console.log(currentValues);
+
     const setField = (field, value) => {
         setForm({
             ...form,
@@ -55,7 +55,7 @@ function ProfileView() {
 
     const updateCurrentForm = (form) => {
         let new_values = Object.fromEntries(Object.entries(form).filter(([_, v]) => v != null && v != ''))
-        console.log(new_values);
+
         if (img) {
             dispatch(doUpdateAvatar(img));
         }
@@ -79,11 +79,11 @@ function ProfileView() {
         return newErrors
     }
     const checkPassword = (pw1, pw2) => {
-        console.log("In check Password");
+
         if (pw1 != pw2) {
             return false
         }
-        console.log("Passwords are equal");
+
         return true;
     }
 

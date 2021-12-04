@@ -39,7 +39,7 @@ function LoginPage(){
                         headers: {'Content-Type': 'application/json'},
                         credentials: 'include'
                     }).then(res => res.json()).then(res => {
-                        console.log(res);
+
                         following = res['following']
                         ///////
                         fetch(url('/articles'), {
@@ -47,7 +47,7 @@ function LoginPage(){
                             headers: {'Content-Type': 'application/json'},
                             credentials: 'include'
                         }).then(res => res.json()).then(res => {
-                            console.log(res);
+
                             articles = res['articles']
                         })
                     })
@@ -56,7 +56,7 @@ function LoginPage(){
 
                 }).then(res => dispatch(login(username, password)));
             }
-        }).then(res => console.log(res)).catch(err => console.log(err))
+        }).catch(err => err)
     }
 
 
@@ -84,7 +84,7 @@ function LoginPage(){
                     <Row>
                         <Login loginFtn={async (username, password, redirect) => {
                             await dispatch(doLogin(username, password, redirect))
-                            console.log("Called dispatch")
+
                         }
                         }/>
                     </Row>

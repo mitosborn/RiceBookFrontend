@@ -141,13 +141,13 @@ export function doHeadlineUpdate(newHeadline) {
 
 export function doLogout(redirect) {
     return function (dispatch) {
-        console.log("Within doLogout")
+
         return fetch(url('/logout'), {
             method: 'PUT',
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
             credentials: 'include'
         }).then(res => {
-            console.log(res);
+
             if (res.status == 200){
                 dispatch(logout())
                 redirect() // Redirect on 200, error otherwise
@@ -160,14 +160,14 @@ export function doLogout(redirect) {
 export function doFollowUpdate(follower, followUser) {
     let method = followUser ? 'PUT' : 'DELETE';
     return function (dispatch) {
-        console.log("Within doLogout")
+
         return (async () => {
             let status = await fetch(url('/following/' + follower), {
                 method: method,
                 headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
                 credentials: 'include'
             }).then(res => res.status)
-            console.log("FollowStatus" + status);
+
             if(status != 200){
                 return Promise.reject("User doesn't exist")
             }
@@ -188,7 +188,7 @@ export function doFollowUpdate(follower, followUser) {
             }
         })()
     .then(res => {
-            console.log(res);
+
             dispatch(followUpdate(res['newArticles'], res['newFollowers'], false))
         }).catch(err => dispatch(followUpdate([], [], true)))
     }
@@ -196,14 +196,14 @@ export function doFollowUpdate(follower, followUser) {
 
 export function doAddArticle(article) {
     return function (dispatch, getState) {
-        console.log("Within doLogout")
+
         return fetch(url('/article'), {
             method: 'POST',
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
             credentials: 'include',
             body: JSON.stringify(article)
         }).then(res => res.json()).then(res => {
-            console.log(res);
+
             dispatch(setPosts(res['articles']));
         })
     }
@@ -211,15 +211,15 @@ export function doAddArticle(article) {
 
 export function doUpdatePost(updatedPostText, pid, commentId = "") {
     return function (dispatch) {
-        console.log("Within doUpdatePost");
-        console.log(pid, commentId);
+
+
         return fetch(url('/articles/'+ pid), {
             method: 'PUT',
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
             credentials: 'include',
             body: JSON.stringify(commentId ? {"text": updatedPostText, commentId}: {"text": updatedPostText})
         }).then(res => res.json()).then(res => {
-            console.log(res);
+
             dispatch(setPosts(res['articles']));
         })
     }
@@ -228,16 +228,16 @@ export function doUpdatePost(updatedPostText, pid, commentId = "") {
 
 export function doUpdateAvatar(img) {
     return function (dispatch) {
-        console.log("Within doUpdateAvatar");
+
         const formData = new FormData()
-        console.log(formData);
+
         formData.append('image', img);
         return fetch(url('/avatar'), {
             method: 'PUT',
             credentials: 'include',
             body: formData
         }).then(res => res.json()).then(res => {
-            console.log(res);
+
             dispatch(updateAvatar(res['avatar']));
         })
     }
@@ -247,14 +247,14 @@ export function doUpdateAvatar(img) {
 
 export function doUpdateZipcode(zipcode) {
     return function (dispatch) {
-        console.log("Within doUpdateZipcode");
+
         return fetch(url('/zipcode'), {
             method: 'PUT',
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
             credentials: 'include',
             body: JSON.stringify({"zipcode": zipcode})
         }).then(res => res.json()).then(res => {
-            console.log(res);
+
             dispatch(updateZipcode(res['zipcode']));
         })
     }
@@ -262,14 +262,14 @@ export function doUpdateZipcode(zipcode) {
 
 export function doUpdateEmail(email) {
     return function (dispatch) {
-        console.log("Within doUpdateEmail");
+
         return fetch(url('/email'), {
             method: 'PUT',
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
             credentials: 'include',
             body: JSON.stringify({"email": email})
         }).then(res => res.json()).then(res => {
-            console.log(res);
+
             dispatch(updateEmail(res['email']));
         })
     }
@@ -277,22 +277,22 @@ export function doUpdateEmail(email) {
 
 
 export function doUpdatePassword(password) {
-    console.log("Within doUpdatePassword");
+
     fetch(url('/password'), {
         method: 'PUT',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         credentials: 'include',
         body: JSON.stringify({"password": password})
     }).then(res => res.json()).then(res => {
-        console.log(res);
+
     })
 }
 
 
 export function doRegister(username, email, zipcode, password, dob) {
-    console.log("Within doRegister");
+
     let request = {username, email, zipcode, password, dob}
-    console.log(request)
+
     return fetch(url('/register'), {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},

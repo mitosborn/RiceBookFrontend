@@ -42,9 +42,9 @@ function Register({registerFtn}) {
             setErrors(newErrors)
         }
         else if(form.checkValidity()) {
-            console.log("called register")
+
             registerFtn(accountName, email, zipcode, password, date).then((res) => {
-                console.log(res);
+
                 if (res.status != 200) {
                     // User already exists
                     setShowAlert(true)
@@ -73,33 +73,33 @@ function Register({registerFtn}) {
         // Check that new name is unique
         if (users.filter(user => user.username == accountName).length > 0) {
             // Display error message
-            console.log(users.filter(user => user.username == accountName));
+
             newErrors.accountname = 'Error: Account already exists';
         }
         return newErrors
     }
 
     const checkDOB = (event) => {
-        console.log(event)
+
         const min_date = new Date();
         min_date.setFullYear(min_date.getFullYear() - 18);
         let entered_val = new Date(event);
         // Correct one day offset due to Date parsing in UTC
         entered_val = new Date(entered_val.getTime() + entered_val.getTimezoneOffset() * 60000)
         if(entered_val > min_date){
-            console.log("Birth date invalid")
+
             return false;
         }
         setDate(entered_val);
         return true;
     }
     const checkPassword = (pw1, pw2) => {
-        console.log("In check Password");
+
         if (pw1 != pw2) {
             alert("Error: Passwords are not equal");
             return false
         }
-        console.log("Passwords are equal");
+
         return true;
     }
 
